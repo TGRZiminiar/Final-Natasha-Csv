@@ -85,6 +85,12 @@ int Register(){
             user.phone,
             user.role
         );
+    if(fwrite != 0){
+        printf("\nSuccessfully saved");
+    }
+    else{
+        printf("\nError saving");
+    } 
     
     if (ferror(fp)){
       printf("Error writing to file.\n");
@@ -354,5 +360,5 @@ void RemoveUser(){
     rename(tempFileName, fileName);
     return;
 
-
 }   
+
