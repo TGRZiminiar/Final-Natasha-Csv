@@ -1,3 +1,11 @@
+/* 
+หน้านี้มีฟังก์ชันของ USER อย่างเดียว
+1. ฟังก์ชันตั้งแต่เริ่มโปรแกรม = FirstTouch
+2. ฟังก์ชันให้ user เลือกหลังจาก login = UserSelection
+
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -43,4 +51,37 @@ void FirstTouch(int *loginOrNot){
     printf("LOGIN OR NOT %d\n",*loginOrNot);
     return;
 }
+
+void UserSelection(){
+    int choice;
+    printf("\n\nWhat you want to do here");
+    printf("\n(1) See Other Product");
+    printf("\n(2) Check Your Cart");
+    printf("\n(3) Exist");
+    printf("\n\nYour choice\t:\t");
+    scanf("%d",&choice);
+
+
+    switch (choice){
+    case 1:
+        PrintProductForUser();
+        break;
+    case 2:
+
+
+        break;
+
+    case 3:
+        printf("\n\t\t Bye Bye :)\n\n");
+        exit(0);
+        break;
+
+    default:
+        printf("Please Select A Corrent Choice");
+        UserSelection();
+        break;
+    }
+
+}
+
 

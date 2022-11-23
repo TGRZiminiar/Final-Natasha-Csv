@@ -1,10 +1,73 @@
+/* 
+1. ฟังก์ชัน PRINT Product ทั้งหมดที่มี = PrintProduct
+2. ฟังก์ชั่นเพิ่มสินค้า = AddProduct
+3. ฟังก์ชัน EDIT สินค้า = EditProductInDB
+4. ฟังก์ชันลบสินค้า = RemoveProduct
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "product.route.h"
+#include "admin.route.h"
 #include <stdbool.h>
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048
+
+
+
+void PrintProduct(){
+    Product product;
+    FILE *fp;
+
+    fp = fopen("database/Product.csv","r");
+    printf("\n ****Product Information****\n");
+    int i = 1;
+    char line[1000];
+    char *sp;
+
+    while (fgets(line, 1000, fp) != NULL){
+        // printf("\n%s\n",line);
+        sp = strtok(line, ",");
+        strcpy(product.productName, sp);
+        printf("\tProduct Name                  :\t%s\n", product.productName);
+        
+        sp = strtok(NULL, ",");
+        product.productPrice = atoi(sp);
+        // printf("SP => %s\n",sp);
+        printf("\tProduct Price                 :\t%d\n", product.productPrice);
+
+        sp = strtok(NULL, ",");
+        product.productQuantity = atoi(sp);
+        // printf("SP => %s\n",sp);
+        printf("\tProduct Quantity              :\t%d\n", product.productQuantity);
+
+        sp = strtok(NULL, ",");
+        product.minimumQuantity = atoi(sp);
+        // printf("SP => %s\n",sp);
+        printf("\tProduct minimumQuantity       :\t%d\n", product.minimumQuantity);
+
+
+        // sp = strtok(NULL, ",");
+        // product.productPrice = atoi(strtok(NULL, sp));
+        // // printf("\tProduct Price             :\t%d\n", product.productPrice);
+        // printf("\tProduct Price             :\t%d\n", atoi(strtok(NULL, sp)));
+        
+        // sp = strtok(NULL, ",");
+        // product.productQuantity = atoi(strtok(NULL, sp));
+        // printf("\tProduct Quantity          :\t%d\n", product.productQuantity);
+
+        // sp = strtok(NULL, ",");
+        // product.minimumQuantity = atoi(strtok(NULL, sp));
+        // printf("\tProduct minimumQuantity   :\t%d\n", product.minimumQuantity);
+
+        printf("----------- Product Number : %d -------------\n\n",i);
+        printf("\n\n");
+        i++;
+    }
+
+    fclose(fp);    
+}
 
 void AddProduct(){
     
@@ -61,58 +124,7 @@ void AddProduct(){
     }
 }
 
-void PrintProduct(){
-    Product product;
-    FILE *fp;
 
-    fp = fopen("database/Product.csv","r");
-    printf("\n ****Product Information****\n");
-    int i = 1;
-    char line[1000];
-    char *sp;
-
-    while (fgets(line, 1000, fp) != NULL){
-        // printf("\n%s\n",line);
-        sp = strtok(line, ",");
-        strcpy(product.productName, sp);
-        printf("\tProduct Name                  :\t%s\n", product.productName);
-        
-        sp = strtok(NULL, ",");
-        product.productPrice = atoi(sp);
-        // printf("SP => %s\n",sp);
-        printf("\tProduct Price                 :\t%d\n", product.productPrice);
-
-        sp = strtok(NULL, ",");
-        product.productQuantity = atoi(sp);
-        // printf("SP => %s\n",sp);
-        printf("\tProduct Quantity              :\t%d\n", product.productQuantity);
-
-        sp = strtok(NULL, ",");
-        product.minimumQuantity = atoi(sp);
-        // printf("SP => %s\n",sp);
-        printf("\tProduct minimumQuantity       :\t%d\n", product.minimumQuantity);
-
-
-        // sp = strtok(NULL, ",");
-        // product.productPrice = atoi(strtok(NULL, sp));
-        // // printf("\tProduct Price             :\t%d\n", product.productPrice);
-        // printf("\tProduct Price             :\t%d\n", atoi(strtok(NULL, sp)));
-        
-        // sp = strtok(NULL, ",");
-        // product.productQuantity = atoi(strtok(NULL, sp));
-        // printf("\tProduct Quantity          :\t%d\n", product.productQuantity);
-
-        // sp = strtok(NULL, ",");
-        // product.minimumQuantity = atoi(strtok(NULL, sp));
-        // printf("\tProduct minimumQuantity   :\t%d\n", product.minimumQuantity);
-
-        printf("----------- Product Number : %d -------------\n\n",i);
-        printf("\n\n");
-        i++;
-    }
-
-    fclose(fp);    
-}
 
 void EditProductInDB(){
     Product tempProduct;

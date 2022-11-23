@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include "product.route.h"
+#include "admin.route.h"
 #include <string.h>
 #include <stdlib.h>
 // #include "headerFile/userAuth.h"
@@ -24,11 +24,12 @@ int main(void){
   }
   
   if(loginOrNot == 1){
-    // AdminChoice();
+    AdminSelection();
     printf("Admin Login\n");
   }
 
   else if(loginOrNot == 2){
+    UserSelection();
     printf("User Login\n");
   }
 

@@ -12,6 +12,7 @@
         "userchoice.h": "c",
         "userauth.h": "c",
         "user.route.h": "c",
-        "product.route.h": "c"
+        "product.route.h": "c",
+        "admin.route.h": "c"
     }
 }
