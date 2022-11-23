@@ -24,7 +24,7 @@ int Register(){
     int checkRole;
     FILE *fp;
 
-    fp = fopen("user.csv", "a+");
+    fp = fopen("database/user.csv", "a+");
  
     if (fp == NULL){
         printf("Error opening user.\n");
@@ -32,7 +32,7 @@ int Register(){
     }
 
     system("cls");
-    printf("\n============Reigster Page============");
+    printf("\n============Register Page============");
 
     printf("\nPlease enter your userName:\t");
     fgets(user.userName,50,stdin);
@@ -52,7 +52,7 @@ int Register(){
     user.phone[strlen(user.phone)-1] = 0;
 
     
-    printf("\nPlease enter your role:\t");
+    printf("\nPlease enter your role [1 = admin, 0 = user]:\t");
     scanf("%d",&checkRole);
 
     
@@ -119,12 +119,13 @@ void PrintUserData(){
         printf("Error opening file.\n");
         return;
     }
-    fp = fopen("user.csv", "r"); 
+    fp = fopen("database/user.csv", "r"); 
    
     char line[1000];
 
     char *sp;
     int i = 0;
+    // TODO: print table header 
     while (fgets(line, 1000, fp) != NULL){
         // printf("\n%s",line);
 
@@ -147,7 +148,7 @@ void PrintUserData(){
 
         i++;
     }   
-    
+    // scanf("");
 
     fclose(fp);
 
@@ -160,7 +161,7 @@ int NumberOfUser(){
         printf("Error opening file.\n");
         return 0;
     }
-    fp = fopen("user.csv", "r"); 
+    fp = fopen("database/user.csv", "r"); 
    
     char line[1000];
 
@@ -189,8 +190,8 @@ void EditUser(){
         return;
     }
 
-    fp = fopen("user.csv","r");
-    fpTemp = fopen("tempUser.csv","w");
+    fp = fopen("database/user.csv","r");
+    fpTemp = fopen("database/tempUser.csv","w");
 
     User users[1000];
     User updateUser;
@@ -274,8 +275,8 @@ void EditUser(){
     fclose(fpTemp);
 
     if(found == 1){
-        fp = fopen("user.csv","w");
-        fpTemp = fopen("tempuser.csv","r");
+        fp = fopen("database/user.csv","w");
+        fpTemp = fopen("database/tempuser.csv","r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
             if(feof(fp)) {
@@ -322,7 +323,7 @@ void RemoveUser(){
 
     FILE *fp, *fpTemp;
 
-    char fileName[FILENAME_SIZE] = "user.csv";
+    char fileName[FILENAME_SIZE] = "database/user.csv";
     char tempFileName[FILENAME_SIZE];
     char buffer[MAX_LINE];
     int deleteLine = 0;
