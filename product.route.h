@@ -1,5 +1,8 @@
 #include <time.h>
 
+#ifndef _PRODUCTROUTE_H
+#define _PRODUCTROUTE_H
+
 typedef struct {
   char productName[50];
   int productQuantity;
@@ -22,3 +25,5 @@ void PrintProduct();
 void EditProductInDB();
 void RemoveProduct();
 void test();
+
+#endif 

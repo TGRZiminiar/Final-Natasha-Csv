@@ -2,6 +2,16 @@
     "files.associations": {
         "product.h": "c",
         "user.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "string.h": "c",
+        "stdbool.h": "c",
+        "stdio.h": "c",
+        "userauth.header.h": "c",
+        "time.h": "c",
+        "userchoice.header.h": "c",
+        "userchoice.h": "c",
+        "userauth.h": "c",
+        "user.route.h": "c",
+        "product.route.h": "c"
     }
 }

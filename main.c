@@ -1,11 +1,44 @@
 
 #include <stdio.h>
-#include "product.h"
+#include "product.route.h"
 #include <string.h>
 #include <stdlib.h>
-#include "user.h"
+// #include "headerFile/userAuth.h"
+#include "user.route.h"
+
+int main(void){
+  
+  int loginOrNot = 0;
+  // 0 = NotLogin 1 = AdminLogin 2 = UserLogin
+  
+  char keepGoingOrNot = 'y';
+  
+
+  while (loginOrNot == 0){
+    FirstTouch(&loginOrNot);
+    printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
+    if(loginOrNot == 0){
+      system("cls");
+      printf("========= Your UserName Or Password Is Wronge =========\n");
+    }
+  }
+  
+  if(loginOrNot == 1){
+    // AdminChoice();
+    printf("Admin Login\n");
+  }
+
+  else if(loginOrNot == 2){
+    printf("User Login\n");
+  }
+
+ 
+
+  return 0;
+}
 
 
+/* 
 int main(void){
   
   int loginOrNot = 0;
@@ -35,7 +68,7 @@ int main(void){
 
       switch (choice){
         case 1:
-          // loginOrNot = Login();
+          loginOrNot = Login();
           break;
         
         case 2:
@@ -91,3 +124,5 @@ int main(void){
   }
   return 0;
 }
+
+ */
