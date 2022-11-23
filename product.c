@@ -43,7 +43,7 @@ void AddProduct(){
     printf("THIS IS PRODUCT NAME %s\n",product.productName);
 
     if(saveProduct == 'y'){
-        fp = fopen("Product.csv","a+");
+        fp = fopen("database/Product.csv","a+");
         fprintf(fp,
             "%s,%d,%d,%d\n",
             product.productName,
@@ -65,7 +65,7 @@ void PrintProduct(){
     Product product;
     FILE *fp;
 
-    fp = fopen("Product.csv","r");
+    fp = fopen("database/Product.csv","r");
     printf("\n ****Product Information****\n");
     int i = 1;
     char line[1000];
@@ -129,8 +129,8 @@ void EditProductInDB(){
     fgets(targetProduct, 50, stdin);
     targetProduct[strlen(targetProduct)-1] = 0;
 
-    fp = fopen("Product.csv","r");
-    fpTemp = fopen("TempProduct.csv","w");
+    fp = fopen("database/Product.csv","r");
+    fpTemp = fopen("database/TempProduct.csv","w");
     char *sp;
 
     while (fgets(line, 1000, fp) != NULL){
@@ -205,8 +205,8 @@ void EditProductInDB(){
     fclose(fpTemp);
 
     if(found == 1){
-        fp = fopen("Product.csv","w");
-        fpTemp = fopen("TempProduct.csv","r");
+        fp = fopen("database/Product.csv","w");
+        fpTemp = fopen("database/TempProduct.csv","r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
 
@@ -300,7 +300,7 @@ void RemoveProduct(){
 
     char targetProduct[50];
     
-    char fileName[FILENAME_SIZE] = "Product.csv";
+    char fileName[FILENAME_SIZE] = "database/Product.csv";
     char tempFileName[FILENAME_SIZE];
     char buffer[MAX_LINE];
     int deleteLine = 0;
