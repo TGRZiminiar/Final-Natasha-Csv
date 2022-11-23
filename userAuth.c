@@ -1,3 +1,8 @@
+/* 
+1. ฟังก์ชัน Login user จะใช้ pointer ส่งค่ามาเพื่อที่จะเอาไปเช้คว่าเป้น admin ไหม = Login
+2. ฟังก์ชั่น Register pointer เหมือน login = Register
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

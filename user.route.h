@@ -11,12 +11,32 @@ typedef struct {
   char role[10];
 } User;
 
+void FirstTouch(int *loginOrNot);
+
+
+// ============ Authentication ============
+
 void Register(int *loginOrNot);
 void Login(int *loginOrNot);
-void FirstTouch(int *loginOrNot);
-void PrintUserData();
-int NumberOfUser();
-void EditUser();
-void RemoveUser();
+
+// ========== END Authentication ==========
+
+
+
+// ============== USER CART ===============
+
+void PrintProductForUser();
+
+
+// ============ END USER CART =============
+
+
+
+void UserSelection();
+
+
+
+
+
 
 #endif 

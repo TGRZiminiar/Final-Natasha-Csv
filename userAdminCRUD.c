@@ -1,3 +1,11 @@
+/* 
+1. ฟังก์ชัน PRINT USER ทั้งหมดที่มี = PrintUserData
+2. ฟังก์ชั่นปริ้นจำนวนลูกค้าทั้งหมดที่มี = NumberOfUser
+3. ฟังก์ชัน EDIT USER = EditUser
+4. ฟังก์ชันลบ USER = RemoveUser
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -271,40 +279,3 @@ void RemoveUser(){
     return;
 
 }   
-
-void FirstTouch(int *loginOrNot){
-    int choice;
-    // system("cls");
-    printf("\t============WELCOME TO SLEEP SHOP============");
-    printf("\n\nPlease select your prefered operation");
-    printf("\n(1) Login");
-    printf("\n(2) Register");
-    printf("\n(3) Exist");
-    printf("\n\nYour choice\t:\t");
-    scanf("%d",&choice);
-    fgetc(stdin);
-
-    switch (choice){
-        case 1:
-        Login(loginOrNot);
-        // printf("LOGIN %d\n",Login(loginOrNot));
-        printf("LOGIN OR NOT FROM CASE LOGIN %d\n",*loginOrNot);
-        break;
-        
-        case 2:
-        Register(loginOrNot);
-        printf("LOGIN OR NOT FROM CASE REGISTER %d\n",*loginOrNot);
-        break;
-
-        case 3:
-        printf("\n\t\t Bye Bye :)\n\n");
-        exit(0);
-        break;
-
-        default:
-        printf("Your input is invalid, please try again");
-        break;
-    }
-    printf("LOGIN OR NOT %d\n",*loginOrNot);
-    return;
-}
