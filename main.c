@@ -24,14 +24,18 @@ int main(void){
       printf("\n(4) Number User");
       printf("\n(5) Edit User");
       printf("\n(6) Remove User");
-      printf("\n(7) Exist");
+      printf("\n(7) Add Product");
+      printf("\n(8) Print Product");
+      printf("\n(9) Edit Product");
+      printf("\n(10) Remove Product");
+      printf("\n(11) Exist");
       printf("\n\nYour choice\t:\t");
       scanf("%d",&choice);
       fgetc(stdin);
 
       switch (choice){
         case 1:
-        //   loginOrNot = Login();
+          // loginOrNot = Login();
           break;
         
         case 2:
@@ -56,6 +60,22 @@ int main(void){
             break;
 
         case 7:
+          AddProduct();
+          break;
+        
+        case 8:
+          PrintProduct();
+          break;
+        
+        case 9:
+          EditProductInDB();
+          break;
+       
+        case 10:
+          RemoveProduct();
+          break;
+
+        case 11:
           printf("\n\t\t Bye Bye :)\n\n");
           exit(0);
           break;
