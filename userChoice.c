@@ -15,7 +15,7 @@
 #define MAX_LINE 2048
 
 
-void FirstTouch(int *loginOrNot){
+void FirstTouch(int *loginOrNot, User *currentUser){
     int choice;
     // system("cls");
     printf("\t============WELCOME TO SLEEP SHOP============");
@@ -29,7 +29,7 @@ void FirstTouch(int *loginOrNot){
 
     switch (choice){
         case 1:
-        Login(loginOrNot);
+        Login(loginOrNot, currentUser);
         // printf("LOGIN %d\n",Login(loginOrNot));
         printf("LOGIN OR NOT FROM CASE LOGIN %d\n",*loginOrNot);
         break;
@@ -52,34 +52,42 @@ void FirstTouch(int *loginOrNot){
     return;
 }
 
-void UserSelection(){
+void UserSelection(User *currentUser){
+    
     int choice;
-    printf("\n\nWhat you want to do here");
-    printf("\n(1) See Other Product");
-    printf("\n(2) Check Your Cart");
-    printf("\n(3) Exist");
-    printf("\n\nYour choice\t:\t");
-    scanf("%d",&choice);
+    
+    while (choice != 1 || choice != 2){
+        printf("\n\nWhat you want to do here");
+        printf("\n(1) See Other Product");
+        printf("\n(2) Add Product To Cart");
+        printf("\n(3) Check Your Cart");
+        printf("\n(4) Exist");
+        printf("\n\nYour choice\t:\t");
+        scanf("%d",&choice);
 
+        switch (choice){
+        case 1:
+            PrintProductForUser();
+            break;
+    
+        case 2:
+            AddProductToCart(currentUser);
+            break;
 
-    switch (choice){
-    case 1:
-        PrintProductForUser();
-        break;
-    case 2:
+        case 3:
+        
+            break;
 
+        case 4:
+            printf("\n\t\t Bye Bye :)\n\n");
+            exit(0);
+            break;
 
-        break;
-
-    case 3:
-        printf("\n\t\t Bye Bye :)\n\n");
-        exit(0);
-        break;
-
-    default:
-        printf("Please Select A Corrent Choice");
-        UserSelection();
-        break;
+        default:
+            printf("Please Select A Corrent Choice");
+            UserSelection(currentUser);
+            break;
+        }
     }
 
 }

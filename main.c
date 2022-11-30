@@ -6,16 +6,30 @@
 // #include "headerFile/userAuth.h"
 #include "user.route.h"
 
+void PrintCurrentUserStruct(User *currentUser){
+  printf("\n======Current User======\n");
+  printf("UserName\t:\t%s\n",currentUser->userName);
+  printf("Email\t:\t%s\n",currentUser->email);
+  printf("Phone\t:\t%s\n",currentUser->phone);
+  printf("Role\t:\t%s\n",currentUser->role);
+
+}
+
 int main(void){
   
+  // time_t t = time(NULL);
+  // printf("\n Current date and time is : %s", ctime(&t));
+
   int loginOrNot = 0;
   // 0 = NotLogin 1 = AdminLogin 2 = UserLogin
   
   char keepGoingOrNot = 'y';
   
+  User *currentUser;
+  currentUser = calloc(1, sizeof(User));
 
   while (loginOrNot == 0){
-    FirstTouch(&loginOrNot);
+    FirstTouch(&loginOrNot, currentUser);
     printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
     if(loginOrNot == 0){
       system("cls");
@@ -23,13 +37,15 @@ int main(void){
     }
   }
   
+  PrintCurrentUserStruct(currentUser);
+
   if(loginOrNot == 1){
-    AdminSelection();
+    AdminSelection(currentUser);
     printf("Admin Login\n");
   }
 
   else if(loginOrNot == 2){
-    UserSelection();
+    UserSelection(currentUser);
     printf("User Login\n");
   }
 

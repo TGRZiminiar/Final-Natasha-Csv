@@ -1,7 +1,8 @@
-#include <time.h>
 
 #ifndef _ADMINROUTE_H
 #define _ADMINROUTE_H
+
+#include <time.h>
 
 typedef struct {
   char productName[50];
@@ -20,9 +21,9 @@ typedef struct {
 } Sales;
 
 
+
 // ============= ADMIN CHOICE =============
 
-void AdminSelection();
 void CommandUser();
 void CommandProduct();
 // ============= END ADMIN CHOICE =============
@@ -49,5 +50,12 @@ void EditUser();
 void RemoveUser();
 
 // =========== END ADMIN USER =============
+
+
+// =========== USER CART =============
+
+void FindProductByProductKey(int *productKey, Product *targetProduct);
+
+// =========== END USER CART ============
 
 #endif 

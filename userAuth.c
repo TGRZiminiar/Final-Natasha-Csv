@@ -11,7 +11,7 @@
 #define MAX_LINE 2048
 
 
-void Login(int *loginOrNot){
+void Login(int *loginOrNot, User *currentUser){
 
     User user;
     FILE *fp;
@@ -42,8 +42,10 @@ void Login(int *loginOrNot){
         strcpy(user.password, sp);
         //Email
         sp = strtok(NULL, ",");
+        strcpy(user.email, sp);
         //Phone
         sp = strtok(NULL, ",");
+        strcpy(user.phone, sp);
         //Role
         sp = strtok(NULL, ",");
         strcpy(user.role, sp);
@@ -52,6 +54,11 @@ void Login(int *loginOrNot){
 
         if(strcmp(user.userName, userName) == 0 && strcmp(user.password, password) == 0){
             printf("Login Success \n");
+            strcpy(currentUser->userName, user.userName);
+            strcpy(currentUser->email, user.email);
+            strcpy(currentUser->phone, user.phone);
+            strcpy(currentUser->role, user.role);
+
             if(strcmp(user.role, "admin") == 0){
                 // printf("Role Admin \n");
                 *loginOrNot = 1;
@@ -80,7 +87,7 @@ void Register(int *loginOrNot){
     fp = fopen("database/User.csv", "a+");
  
     if (fp == NULL){
-        printf("Error opening user.\n");
+        printf("Error opening User.csv\n");
         return;
     }
 

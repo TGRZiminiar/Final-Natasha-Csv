@@ -1,2 +1,2 @@
-gcc -o app main.c adminChoice.c productCRUD.c userAdminCRUD.c userAuth.c userChoice.c userProduct.c
+gcc -o app main.c product.c userAuth.c userChoice.c userAdminCRUD.c
 ./app
