@@ -7,40 +7,45 @@
 #include <string.h>
 #include <stdlib.h>
 #include "admin.route.h"
+#include "user.route.h"
 
-
-void AdminSelection(){
+void AdminSelection(User *currentUser){
     int choice;
     printf("\n\nHey Admin! What you want to do here");
     printf("\n(1) See All Command User");
     printf("\n(2) See All Command Product");
-    printf("\n(3) Exist");
+    printf("\n(3) Go To User Selection");
+    printf("\n(4) Exist");
     printf("\n\nYour choice\t:\t");
     scanf("%d",&choice);
 
 
     switch (choice){
     case 1:
-        CommandUser();
+        CommandUser(currentUser);
         break;
     case 2:
         CommandProduct();
         break;
 
     case 3:
+        UserSelection(currentUser);
+        break;
+
+    case 4:
         printf("\n\t\t Bye Bye :)\n\n");
         exit(0);
         break;
 
     default:
         printf("Please Select A Corrent Choice");
-        AdminSelection();
+        AdminSelection(currentUser);
         break;
     }
 
 }
 
-void CommandUser(){
+void CommandUser(User *currentUser){
 
     int choice;
     printf("\n\nHey Admin! What you want to do for user?");
@@ -72,7 +77,7 @@ void CommandUser(){
         break;
 
     case 5:
-        AdminSelection();
+        AdminSelection(currentUser);
         break;
 
     case 6:
@@ -82,7 +87,7 @@ void CommandUser(){
 
     default:
         printf("Please Select A Corrent Choice");
-        CommandUser();
+        CommandUser(currentUser);
         break;
     }
 }
