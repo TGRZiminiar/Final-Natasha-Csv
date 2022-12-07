@@ -14,7 +14,7 @@
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048
 
-
+void saveUpdateProduct(char *line, char *sp, int *found, Product tempProduct, FILE *fpTemp, char *targetProduct);
 
 void PrintProduct(){
     Product product;
@@ -47,20 +47,6 @@ void PrintProduct(){
         // printf("SP => %s\n",sp);
         printf("\tProduct minimumQuantity       :\t%d\n", product.minimumQuantity);
 
-
-        // sp = strtok(NULL, ",");
-        // product.productPrice = atoi(strtok(NULL, sp));
-        // // printf("\tProduct Price             :\t%d\n", product.productPrice);
-        // printf("\tProduct Price             :\t%d\n", atoi(strtok(NULL, sp)));
-        
-        // sp = strtok(NULL, ",");
-        // product.productQuantity = atoi(strtok(NULL, sp));
-        // printf("\tProduct Quantity          :\t%d\n", product.productQuantity);
-
-        // sp = strtok(NULL, ",");
-        // product.minimumQuantity = atoi(strtok(NULL, sp));
-        // printf("\tProduct minimumQuantity   :\t%d\n", product.minimumQuantity);
-
         printf("----------- Product Number : %d -------------\n\n",i);
         printf("\n\n");
         i++;
@@ -72,16 +58,17 @@ void PrintProduct(){
 void AddProduct(){
     
     Product product;
-
     FILE *fp;
-    system("cls");
-    printf("\n========= Add Product To Store =========");
-
-    printf("\nEnter Product Name:\t");
-    // fgets(product.productName, 50, stdin);
-    // product.productName[strlen(product.productName)-1] = 0;
     char temp[50];
-    fgets(temp, 50,stdin);
+
+    system("cls");
+    printf("\n========= Add Product To Store =========\n");
+    printf("Enter Product Name:\t");
+
+    // fgets(temp, 50, stdin);
+    scanf("%s",&temp);
+    // int n = strlen(temp);
+    // if (n>0 && temp[n-1]=='\n') { temp[n-1] = 0; }
     temp[strlen(temp)-1] = 0;
     strcpy(product.productName, temp);
 
@@ -103,7 +90,7 @@ void AddProduct(){
     printf("\nConfirm To Add This Product? [y/n]:\t");
     char saveProduct;
     scanf("%s",&saveProduct);
-    printf("THIS IS PRODUCT NAME %s\n",product.productName);
+    // printf("THIS IS PRODUCT NAME %s\n",product.productName);
 
     if(saveProduct == 'y'){
         fp = fopen("database/Product.csv","a+");
@@ -115,7 +102,7 @@ void AddProduct(){
             product.minimumQuantity
         );
         if(fwrite != 0){
-            printf("\nSuccessfully saved");
+            printf("\nSuccessfully saved\n");
         }
         else{
             printf("\nError saving");
@@ -128,25 +115,32 @@ void AddProduct(){
 
 void EditProductInDB(){
     Product tempProduct;
-    Product updateProduct;
     FILE *fp, *fpTemp;
 
 
-    char targetProduct[50];
     char line[1000];
     int found = 0;
     
     PrintProduct();
+
     printf("Enter Product Name That You Want To Edit\t:\t");
-    fgets(targetProduct, 50, stdin);
-    targetProduct[strlen(targetProduct)-1] = 0;
+    char targetProduct[50];
+    fgets(targetProduct, 50, stdin); 
+    
+    // targetProduct[strlen(targetProduct)-1] = 0;
+
+    // printf("THIS IS TARGET PRODUCT %s\n",targetProduct);
+    
 
     fp = fopen("database/Product.csv","r");
     fpTemp = fopen("database/TempProduct.csv","w");
     char *sp;
+    
+    Product updateProduct;
 
     while (fgets(line, 1000, fp) != NULL){
-        sscanf(line, "%s", &updateProduct.productName);
+
+        sscanf(line, "%s", &updateProduct.productName); 
 
         sp = strtok(line, ",");
         strcpy(updateProduct.productName, sp);
@@ -178,12 +172,13 @@ void EditProductInDB(){
             scanf("%d", &updateProduct.minimumQuantity);
 
             fprintf(fpTemp,
-            "%s,%d,%d,%d\n",
-            updateProduct.productName,
-            updateProduct.productPrice,
-            updateProduct.productQuantity,
-            updateProduct.minimumQuantity
+                "%s,%d,%d,%d\n",
+                updateProduct.productName,
+                updateProduct.productPrice,
+                updateProduct.productQuantity,
+                updateProduct.minimumQuantity
             );
+            
             if(fwrite != 0){
                 printf("\nSuccessfully saved");
             }
@@ -196,11 +191,11 @@ void EditProductInDB(){
         else {
 
             fprintf(fpTemp,
-            "%s,%d,%d,%d\n",
-            updateProduct.productName,
-            updateProduct.productPrice,
-            updateProduct.productQuantity,
-            updateProduct.minimumQuantity
+                "%s,%d,%d,%d\n",
+                updateProduct.productName,
+                updateProduct.productPrice,
+                updateProduct.productQuantity,
+                updateProduct.minimumQuantity
             );
 
             if(fwrite != 0){
@@ -209,8 +204,8 @@ void EditProductInDB(){
             else{
                 printf("\nError saving");
             } 
-
         }
+
     }
     
     fclose(fp);
@@ -252,55 +247,6 @@ void EditProductInDB(){
     else {
         printf("DATA NOT FOUND\n");
     }
-
-    // fp = fopen("Product.dat","a+");
-    // fp1 = fopen("tempProduct.dat","w");
-
-    // char temp[50];
-    // int found = 0;
-    
-    // while (fread(&product, sizeof(Product), 1, fp)){
-    //     printf("THIS IS PRODUCT NAME %s\n",product.productName);
-    //     if(strcmp(targetProduct, product.productName) == 0){
-            
-    //         found = 1;
-
-    //         printf("\nEnter Product Name:\t");
-    //         fgets(temp, 50,stdin);
-    //         temp[strlen(temp)-1] = 0;
-    //         strcpy(updateProduct.productName, temp);
-
-    //         printf("\nEnter Product Price:\t");
-    //         scanf("%d",&updateProduct.productPrice);
-
-    //         printf("\nEnter Product Quantity:\t");
-    //         scanf("%d",&updateProduct.productQuantity);
-
-    //         printf("\nEnter Product Minimum Quantity:\t");
-    //         scanf("%d",&updateProduct.minimumQuantity);
-
-    //     }
-    //     fwrite(&updateProduct, sizeof(Product), 1, fp1);
-    // }
-
-    // fclose(fp);
-    // fclose(fp1);
-    // if(found == 1){
-    //     fp1 = fopen("tempProduct.dat","r");
-    //     fp = fopen("Product.dat","w");
-
-    //     while (fread(&updateProduct, sizeof(Product), 1, fp1)){
-    //         fwrite(&updateProduct, sizeof(Product), 1, fp);
-    //     }
-        
-    //     fclose(fp);
-    //     fclose(fp1);
-    //     printf("Update Product Success\n");
-
-    // }
-    // else {
-    //     printf("Data Not Found\n");
-    // }
 
 }
 
@@ -356,3 +302,7 @@ void RemoveProduct(){
 }
 
 
+void saveUpdateProduct(char *line, char *sp, int *found, Product tempProduct, FILE *fpTemp, char *targetProduct){
+    
+   
+}
