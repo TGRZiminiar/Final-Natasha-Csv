@@ -9,6 +9,9 @@
 #include "user.route.h"
 #include "admin.route.h"
 
+void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetProduct);
+
+
 void PrintProductForUser(){
     Product product;
     FILE *fp;
@@ -46,7 +49,7 @@ void FindProductByProductKey(int *productKey, Product *targetProduct){
 
     FILE *fp;
     Product product;
-    
+    fp = fopen("database/Product.csv","r");
 
     char line[1000];
     int i = 1;
@@ -77,66 +80,112 @@ void FindProductByProductKey(int *productKey, Product *targetProduct){
 }
 
 
+
+
+
+
 void AddProductToCart(User *currentUser){
 
-    FILE *fp;
-    FILE *fpOpenProduct;
+    
+    // FILE *fpOpenProduct;
     Product *targetProduct;
     targetProduct = calloc(1, sizeof(Product));
 
     UserCart *userCart;
     userCart = calloc(1, sizeof(UserCart));
 
-    fp = fopen("database/UserCard.csv","a+");
-
-    if(fp == NULL){
-        printf("Error Opening UserCard.csv\n");
-        return;
-    }
-
-
     char continueOrNot = 'y';
     int productKey;
     while (continueOrNot == 'y'){
+
         printf("Add Product To Your Cart\n");
         PrintProductForUser();
-        printf("Enter Product Key To Add Product To Cart\n");
+        
+        printf("Enter Product Key To Add Product To Cart :\t");
         scanf("%d",&productKey);
+        
         FindProductByProductKey(&productKey, targetProduct);
+        printf("TARGET PRODUCT %s\n",targetProduct->productName);
+        
         if(productKey == 0){
-            strcpy(userCart->cartOwner, currentUser->userName);
-            strcpy(userCart->productName, targetProduct->productName);
-            userCart->singlePriceProduct = targetProduct->productPrice;
-            userCart->timeStamp = time(NULL);
             
-
-            int quantity = 0;
-            while (quantity == 0){
-                printf("Please Enter How Many Do You Want To Add In Cart\t:\t");
-                scanf("%d",&quantity);
-            }
-            
-            int totalCost;
-            totalCost = userCart->singlePriceProduct * quantity;
-            userCart->totalCost = totalCost;
-            userCart->totalInCart = quantity;
-
-            printf("\n========== Product Detail ==========\n");
-            printf("\tCartOwner             :\t%s\n",userCart->cartOwner);
-            printf("\tProductName           :\t%s\n",userCart->productName);
-            printf("\tSinglePriceProduct    :\t%d\n",userCart->singlePriceProduct);
-            printf("\tTimeStamps            :\t%s\n",ctime(&userCart->timeStamp));
-            printf("\tToTalCost             :\t%d\n",userCart->totalCost);
-            printf("\tToTalInCart           :\t%d\n",userCart->totalInCart);
-
+            AddSaveProductCard(userCart, currentUser, targetProduct);
+            printf("Do You Want To Continue This Process? [y/n]:\t");
+            scanf("%s",&continueOrNot);
 
         }
 
-        printf("Do You Want To Continue This Process Or Not\n");
+        printf("Do You Want To Continue This Process Or Not (y):(n)\n");
         scanf("%s",&continueOrNot);
+
+        
 
     }
 
 }
 
 
+
+void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetProduct){
+    
+    FILE *fp;
+    strcpy(userCart->cartOwner, currentUser->userName);
+    strcpy(userCart->productName, targetProduct->productName);
+    userCart->singlePriceProduct = targetProduct->productPrice;
+    userCart->timeStamp = time(NULL);
+    
+    int quantity = 0;
+    while (quantity == 0){
+
+        printf("Please Enter How Many Do You Want To Add In Cart\t:\t");
+        scanf("%d",&quantity);
+
+    }
+    
+    int totalCost;
+    totalCost = userCart->singlePriceProduct * quantity;
+    userCart->totalCost = totalCost;
+    userCart->totalInCart = quantity;
+
+    printf("\n========== Product Detail ==========\n");
+    printf("\tCartOwner             :\t%s\n",userCart->cartOwner);
+    printf("\tProductName           :\t%s\n",userCart->productName);
+    printf("\tSinglePriceProduct    :\t%d\n",userCart->singlePriceProduct);
+    printf("\tTimeStamps            :\t%s",ctime(&userCart->timeStamp));
+    printf("\tToTalInCart           :\t%d\n",userCart->totalInCart);
+    printf("\tToTalCost             :\t%d\n",userCart->totalCost);
+    printf("\nConfirm To Add This Product? [y/n]:\t");
+    
+    char saveProductToCart;
+    scanf("%s",&saveProductToCart);
+
+    if(saveProductToCart == 'y'){
+
+        fp = fopen("database/UserCart.csv","a+");
+
+        if(fp == NULL){
+            printf("Error Opening UserCart.csv\n");
+            return;
+        }
+        printf("TEST %s",userCart->cartOwner);
+        fprintf(fp,
+            "%s,%s,%d,%s,%d,%d\n",
+            userCart->cartOwner,
+            userCart->productName,
+            userCart->singlePriceProduct,
+            strtok(ctime(&userCart->timeStamp),"\n"),
+            userCart->totalInCart,
+            userCart->totalCost
+        );
+        
+        if(fwrite != 0){
+            printf("\nSuccessfully saved");
+        }
+        else{
+            printf("\nError saving");
+        } 
+
+        fclose(fp);
+
+    }
+}

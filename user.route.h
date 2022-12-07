@@ -44,7 +44,6 @@ void Login(int *loginOrNot, User *currentUser);
 void PrintProductForUser();
 void AddProductToCart(User *currentUser);
 
-
 // ============ END USER CART =============
 
 

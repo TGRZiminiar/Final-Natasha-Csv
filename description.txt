@@ -1,0 +1,37 @@
+
+Product Model
+string productName ชื่อสินค้า
+int productQuantity จำนวนสินค้า
+int productPrice จำนวนราคา
+int minimumQuantity ถ้าจำนวนสินค้าเหลือเท่านี้ให้ขึ้นแจ้งเตือน admin ว่าสินค้านี้ใกล้หมด
+
+Product Model CSV
+string productName ชื่อสินค้า
+int productPrice จำนวนราคา
+int productQuantity จำนวนสินค้า
+int minimumQuantity ถ้าจำนวนสินค้าเหลือเท่านี้ให้ขึ้นแจ้งเตือน admin ว่าสินค้านี้ใกล้หมด
+
+
+User Model
+string userName ชื่อ user
+string email
+string password
+string phone
+string role มีแค่ admin กับ user
+
+User Model CSV
+string userName ชื่อ user
+string password
+string email
+string phone
+string role มีแค่ admin กับ user
+
+
+
+UserCart Model
+string cartOwner ชื่อเจ้าของตะกร้าสินค้า
+string productName
+int totalInCart
+int singlePriceProduct
+int totalCost
+time_t timeStamp
