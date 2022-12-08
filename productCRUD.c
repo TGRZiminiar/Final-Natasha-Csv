@@ -125,9 +125,9 @@ void EditProductInDB(){
 
     printf("Enter Product Name That You Want To Edit\t:\t");
     char targetProduct[50];
+    fflush(stdin);
     fgets(targetProduct, 50, stdin); 
-    
-    // targetProduct[strlen(targetProduct)-1] = 0;
+    targetProduct[strlen(targetProduct)-1] = 0;
 
     // printf("THIS IS TARGET PRODUCT %s\n",targetProduct);
     
@@ -158,17 +158,17 @@ void EditProductInDB(){
 
             found = 1;
 
-            printf("Current Product Name For Product is %s: Please Enter New Value", updateProduct.productName);
+            printf("Current Product Name For Product is %s: Please Enter New Value :\t", updateProduct.productName);
             fgets(updateProduct.productName ,50,stdin);
             updateProduct.productName[strlen(updateProduct.productName)-1] = 0;
 
-            printf("Current Product Price For Product is %d: Please Enter New Value", updateProduct.productPrice);
+            printf("Current Product Price For Product is %d: Please Enter New Value :\t", updateProduct.productPrice);
             scanf("%d", &updateProduct.productPrice);
             
-            printf("Current Product Quantity For Product is %d: Please Enter New Value", updateProduct.productQuantity);
+            printf("Current Product Quantity For Product is %d: Please Enter New Value :\t", updateProduct.productQuantity);
             scanf("%d", &updateProduct.productQuantity);
 
-            printf("Current Product Minimum Quantity For Product is %d: Please Enter New Value", updateProduct.minimumQuantity);
+            printf("Current Product Minimum Quantity For Product is %d: Please Enter New Value :\t", updateProduct.minimumQuantity);
             scanf("%d", &updateProduct.minimumQuantity);
 
             fprintf(fpTemp,

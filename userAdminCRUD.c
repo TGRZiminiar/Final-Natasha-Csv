@@ -39,7 +39,7 @@ void PrintUserData(){
     fp = fopen("database/User.csv", "r"); 
    
     char line[1000];
-
+    
     char *sp;
     int i = 0;
     // TODO: print table header 
@@ -120,6 +120,7 @@ void EditUser(){
 
     char *sp;
     printf("Enter Name That You Want To Update\t:\t");
+    fflush(stdin);
     fgets(targetUser, 50, stdin);
     targetUser[strlen(targetUser)-1] = 0;
     bool keepReading = true;
@@ -157,13 +158,16 @@ void EditUser(){
         if(strcmp(targetUser, updateUser.userName) == 0){
             found = 1;
 
-            printf("Current value for username is %s; please enter new value:", updateUser.userName );
-            scanf("%s", &updateUser.userName);
+            printf("Current value for username is %s; please enter new value:\t", updateUser.userName);
+            // fflush(stdin);
+            fgets(updateUser.userName, 50, stdin); 
+            updateUser.userName[strlen(updateUser.userName)-1] = 0;
+            // scanf("%s", &updateUser.userName);
 
-            printf("Current value for email is %s; please enter new value:", updateUser.email );
+            printf("Current value for email is %s; please enter new value:\t", updateUser.email );
             scanf("%s", &updateUser.email);
 
-            printf("Current value for email is %s; please enter new value:", updateUser.phone );
+            printf("Current value for phone is %s; please enter new value:\t", updateUser.phone );
             scanf("%s", &updateUser.phone);
 
             fprintf(fpTemp,

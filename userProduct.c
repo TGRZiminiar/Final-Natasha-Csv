@@ -81,9 +81,6 @@ void FindProductByProductKey(int *productKey, Product *targetProduct){
 
 
 
-
-
-
 void AddProductToCart(User *currentUser){
 
     
@@ -117,8 +114,6 @@ void AddProductToCart(User *currentUser){
 
         printf("Do You Want To Continue This Process Or Not (y):(n)\n");
         scanf("%s",&continueOrNot);
-
-        
 
     }
 
@@ -167,13 +162,16 @@ void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetPr
             printf("Error Opening UserCart.csv\n");
             return;
         }
-        printf("TEST %s",userCart->cartOwner);
+
+        printf("Time in string %s",ctime(&userCart->timeStamp));
+        printf("Time in millisecond %d",userCart->timeStamp);
         fprintf(fp,
-            "%s,%s,%d,%s,%d,%d\n",
+            "%s,%s,%d,%d,%d,%d\n",
             userCart->cartOwner,
             userCart->productName,
             userCart->singlePriceProduct,
-            strtok(ctime(&userCart->timeStamp),"\n"),
+            userCart->timeStamp,
+            // strtok(ctime(&userCart->timeStamp),"\n"),
             userCart->totalInCart,
             userCart->totalCost
         );
@@ -188,4 +186,60 @@ void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetPr
         fclose(fp);
 
     }
+}
+
+void PrintUserCart(){
+
+    FILE *fp;
+    UserCart userCart;
+
+    fp = fopen("database/UserCart.csv","r");
+    printf("\n =========   USER CART ==========");
+
+    char line[1000];
+    char *sp;
+    int i = 1;
+
+
+    while (fgets(line, 1000, fp) != NULL){
+        printf("--------------- User Cart  :  %d ----------------\n\n",i);
+
+        sp = strtok(line, ",");
+        strcpy(userCart.cartOwner, sp);
+        printf("\tCart Owner                  :\t%s\n", userCart.cartOwner);
+
+        sp = strtok(NULL, ",");
+        strcpy(userCart.productName, sp);
+        printf("\tProduct Name                :\t%s\n", userCart.productName);
+       
+        sp = strtok(NULL, ",");
+        userCart.singlePriceProduct = atoi(sp);
+        printf("\tSingle Price Product        :\t%d\n", userCart.singlePriceProduct);
+
+        sp = strtok(NULL, ",");
+        struct tm tm;
+        // strptime(sp, "%s", &tm);
+        // userCart.timeStamp = strtok(ctime(sp),"\n");
+        // strcpy(userCart.timeStamp, sp);
+        // time_t t = mktime(&tm);
+        userCart.timeStamp = mktime(&tm);
+        // strptime(sp, "%s", &userCart.timeStamp);
+        
+        printf("\tTime Stamps                 :\t%s\n", sp);
+        
+
+        sp = strtok(NULL, ",");
+        userCart.totalInCart = atoi(sp);
+        printf("\tTotal In Cart               :\t%d\n", userCart.totalInCart);
+
+        sp = strtok(NULL, ",");
+        userCart.totalCost = atoi(sp);
+        printf("\tTotal Cost                  :\t%d\n", userCart.totalCost);
+        printf("\n\n");
+        i++;
+    }
+
+    fclose(fp);
+    
+
 }
