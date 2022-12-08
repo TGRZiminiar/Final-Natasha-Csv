@@ -1,11 +1,61 @@
 
 #include <stdio.h>
-#include "product.h"
+#include "admin.route.h"
 #include <string.h>
 #include <stdlib.h>
-#include "user.h"
+// #include "headerFile/userAuth.h"
+#include "user.route.h"
+
+void PrintCurrentUserStruct(User *currentUser){
+  printf("\n======Current User======\n");
+  printf("UserName\t:\t%s\n",currentUser->userName);
+  printf("Email\t:\t%s\n",currentUser->email);
+  printf("Phone\t:\t%s\n",currentUser->phone);
+  printf("Role\t:\t%s\n",currentUser->role);
+
+}
+
+int main(void){
+  
+  // time_t t = time(NULL);
+  // printf("\n Current date and time is : %s", ctime(&t));
+
+  int loginOrNot = 0;
+  // 0 = NotLogin 1 = AdminLogin 2 = UserLogin
+  
+  char keepGoingOrNot = 'y';
+  
+  User *currentUser;
+  currentUser = calloc(1, sizeof(User));
+
+  while (loginOrNot == 0){
+    FirstTouch(&loginOrNot, currentUser);
+    printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
+    if(loginOrNot == 0){
+      system("cls");
+      printf("========= Your UserName Or Password Is Wronge =========\n");
+    }
+  }
+  
+  PrintCurrentUserStruct(currentUser);
+
+  if(loginOrNot == 1){
+    AdminSelection(currentUser);
+    printf("Admin Login\n");
+  }
+
+  else if(loginOrNot == 2){
+    UserSelection(currentUser);
+    printf("User Login\n");
+  }
+
+ 
+
+  return 0;
+}
 
 
+/* 
 int main(void){
   
   int loginOrNot = 0;
@@ -35,7 +85,7 @@ int main(void){
 
       switch (choice){
         case 1:
-          // loginOrNot = Login();
+          loginOrNot = Login();
           break;
         
         case 2:
@@ -91,3 +141,5 @@ int main(void){
   }
   return 0;
 }
+
+ */

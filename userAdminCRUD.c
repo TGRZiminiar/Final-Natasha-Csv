@@ -1,7 +1,15 @@
+/* 
+1. ฟังก์ชัน PRINT USER ทั้งหมดที่มี = PrintUserData
+2. ฟังก์ชั่นปริ้นจำนวนลูกค้าทั้งหมดที่มี = NumberOfUser
+3. ฟังก์ชัน EDIT USER = EditUser
+4. ฟังก์ชันลบ USER = RemoveUser
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "user.h"
+#include "user.route.h"
 #include <stdbool.h>
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048
@@ -19,97 +27,6 @@ User makeUser(char *userName, char *email, char *password, char *phone, char *ro
 
 }
 
-int Register(){
-    User user;
-    int checkRole;
-    FILE *fp;
-
-    fp = fopen("database/user.csv", "a+");
- 
-    if (fp == NULL){
-        printf("Error opening user.\n");
-        return 1;
-    }
-
-    system("cls");
-    printf("\n============Register Page============");
-
-    printf("\nPlease enter your userName:\t");
-    fgets(user.userName,50,stdin);
-    user.userName[strlen(user.userName)-1] = 0;
-    
-    printf("\nPlease enter your password:\t");
-    fgets(user.password,50,stdin);
-    user.password[strlen(user.password)-1] = 0;
-    
-    printf("\nPlease enter your email:\t");
-    fgets(user.email,50,stdin);
-    user.email[strlen(user.email)-1] = 0;
-
-    
-    printf("\nPlease enter your phone:\t");
-    fgets(user.phone,50,stdin);
-    user.phone[strlen(user.phone)-1] = 0;
-
-    
-    printf("\nPlease enter your role [1 = admin, 0 = user]:\t");
-    scanf("%d",&checkRole);
-
-    
-    if(checkRole == 1){
-      strcpy(user.role,"admin");
-    }
-    else{
-      strcpy(user.role,"user");
-    }
-
-
-    printf("\n------------- User Detail ---------------\n\n");
-    printf("\tUserName  :\t%s\n",user.userName);
-    printf("\tPassword  :\t%s\n",user.password);
-    printf("\tEmail     :\t%s\n",user.email);
-    printf("\tPhone     :\t%s\n",user.phone);
-    printf("\tRole      :\t%s\n",user.role);
-    printf("\n\n");
-    printf("\nDo you want to save the invoice [y/n]:\t");
-    char saveBill;
-    scanf("%s",&saveBill);
-
-    if(saveBill == 'y'){
-
-       fprintf(fp,
-            "%s,%s,%s,%s,%s\n",
-            user.userName,
-            user.password,
-            user.email,
-            user.phone,
-            user.role
-        );
-    if(fwrite != 0){
-        printf("\nSuccessfully saved");
-    }
-    else{
-        printf("\nError saving");
-    } 
-    
-    if (ferror(fp)){
-      printf("Error writing to file.\n");
-      return 0;
-    }
-    fclose(fp);
-
-    if(checkRole == 1){
-        return 2;
-    }
-    
-    else {
-        return 1;
-    }
-    }
-    return 0;
-
-}
-
 void PrintUserData(){
 
     FILE *fp;
@@ -119,10 +36,10 @@ void PrintUserData(){
         printf("Error opening file.\n");
         return;
     }
-    fp = fopen("database/user.csv", "r"); 
+    fp = fopen("database/User.csv", "r"); 
    
     char line[1000];
-
+    
     char *sp;
     int i = 0;
     // TODO: print table header 
@@ -161,7 +78,7 @@ int NumberOfUser(){
         printf("Error opening file.\n");
         return 0;
     }
-    fp = fopen("database/user.csv", "r"); 
+    fp = fopen("database/User.csv", "r"); 
    
     char line[1000];
 
@@ -190,8 +107,8 @@ void EditUser(){
         return;
     }
 
-    fp = fopen("database/user.csv","r");
-    fpTemp = fopen("database/tempUser.csv","w");
+    fp = fopen("database/User.csv","r");
+    fpTemp = fopen("database/TempUser.csv","w");
 
     User users[1000];
     User updateUser;
@@ -203,6 +120,7 @@ void EditUser(){
 
     char *sp;
     printf("Enter Name That You Want To Update\t:\t");
+    fflush(stdin);
     fgets(targetUser, 50, stdin);
     targetUser[strlen(targetUser)-1] = 0;
     bool keepReading = true;
@@ -240,13 +158,16 @@ void EditUser(){
         if(strcmp(targetUser, updateUser.userName) == 0){
             found = 1;
 
-            printf("Current value for username is %s; please enter new value:", updateUser.userName );
-            scanf("%s", &updateUser.userName);
+            printf("Current value for username is %s; please enter new value:\t", updateUser.userName);
+            // fflush(stdin);
+            fgets(updateUser.userName, 50, stdin); 
+            updateUser.userName[strlen(updateUser.userName)-1] = 0;
+            // scanf("%s", &updateUser.userName);
 
-            printf("Current value for email is %s; please enter new value:", updateUser.email );
+            printf("Current value for email is %s; please enter new value:\t", updateUser.email );
             scanf("%s", &updateUser.email);
 
-            printf("Current value for email is %s; please enter new value:", updateUser.phone );
+            printf("Current value for phone is %s; please enter new value:\t", updateUser.phone );
             scanf("%s", &updateUser.phone);
 
             fprintf(fpTemp,
@@ -275,8 +196,8 @@ void EditUser(){
     fclose(fpTemp);
 
     if(found == 1){
-        fp = fopen("database/user.csv","w");
-        fpTemp = fopen("database/tempuser.csv","r");
+        fp = fopen("database/User.csv","w");
+        fpTemp = fopen("database/TempUser.csv","r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
             if(feof(fp)) {
@@ -323,7 +244,7 @@ void RemoveUser(){
 
     FILE *fp, *fpTemp;
 
-    char fileName[FILENAME_SIZE] = "database/user.csv";
+    char fileName[FILENAME_SIZE] = "database/User.csv";
     char tempFileName[FILENAME_SIZE];
     char buffer[MAX_LINE];
     int deleteLine = 0;
@@ -362,4 +283,3 @@ void RemoveUser(){
     return;
 
 }   
-
