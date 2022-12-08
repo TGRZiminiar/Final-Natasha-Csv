@@ -136,8 +136,7 @@ void Register(int *loginOrNot){
     scanf("%s",&saveBill);
 
     if(saveBill == 'y'){
-
-       fprintf(fp,
+        fprintf(fp,
             "%s,%s,%s,%s,%s\n",
             user.userName,
             user.password,
