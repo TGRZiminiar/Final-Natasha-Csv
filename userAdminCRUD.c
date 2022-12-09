@@ -46,6 +46,8 @@ void PrintUserData(){
     while (fgets(line, 1000, fp) != NULL){
         // printf("\n%s",line);
 
+        printf("----------- Product Key : %d -------------\n\n",i);
+
         sp = strtok(line, ",");
         strcpy(users[i].userName, sp);
 
@@ -60,8 +62,14 @@ void PrintUserData(){
         
         sp = strtok(NULL, ",");
         strcpy(users[i].role, sp);
-        printf("Line %d\n",i);
-        printf("%s %s %s %s %s",users[i].userName, users[i].password, users[i].email, users[i].phone, users[i].role);
+        printf("--------------\tLine %d\t--------------\n",i);
+        printf("UserName        :\t%s\n",users[i].userName);
+        printf("Password        :\t%s\n",users[i].password);
+        printf("Email           :\t%s\n",users[i].email);
+        printf("Phone           :\t%s\n",users[i].phone);
+        printf("Role            :\t%s\n",users[i].role);
+        
+        // printf("%s %s %s %s %s",users[i].userName, users[i].password, users[i].email, users[i].phone, users[i].role);
 
         i++;
     }   
@@ -86,13 +94,12 @@ int NumberOfUser(){
     int i = 0;
     while (fgets(line, 1000, fp) != NULL){
         // printf("\n%s",line);
-
         i++;
     }   
     
     fclose(fp);
 
-    printf("%d\n",i);
+    // printf("%d\n",i);
 
     return i;
 }
@@ -133,7 +140,7 @@ void EditUser(){
         }
         // fgets(buffer, MAX_LINE, fp);
         sscanf(line, "%s", &updateUser.userName);
-
+        
         sp = strtok(line, ",");
         strcpy(updateUser.userName, sp);
 

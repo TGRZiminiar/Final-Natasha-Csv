@@ -27,7 +27,7 @@ void PrintProduct(){
     char *sp;
 
     while (fgets(line, 1000, fp) != NULL){
-        // printf("\n%s\n",line);
+        printf("\n%s\n",line);
         sp = strtok(line, ",");
         strcpy(product.productName, sp);
         printf("\tProduct Name                  :\t%s\n", product.productName);
@@ -123,11 +123,17 @@ void EditProductInDB(){
     
     PrintProduct();
 
-    printf("Enter Product Name That You Want To Edit\t:\t");
+    printf("Enter Product Key That You Want To Edit\t:\t");
     char targetProduct[50];
+    int targetLine;
+
     fflush(stdin);
-    fgets(targetProduct, 50, stdin); 
-    targetProduct[strlen(targetProduct)-1] = 0;
+    while (!targetLine){
+        scanf("%d",&targetLine);
+    }
+    
+    // fgets(targetProduct, 50, stdin); 
+    // targetProduct[strlen(targetProduct)-1] = 0;
 
     // printf("THIS IS TARGET PRODUCT %s\n",targetProduct);
     
@@ -137,6 +143,7 @@ void EditProductInDB(){
     char *sp;
     
     Product updateProduct;
+    int i = 1;
 
     while (fgets(line, 1000, fp) != NULL){
 
@@ -154,7 +161,7 @@ void EditProductInDB(){
         sp = strtok(NULL, ",");
         updateProduct.minimumQuantity = atoi(sp);
 
-        if(strcmp(targetProduct, updateProduct.productName) == 0){
+        if(targetLine == i){
 
             found = 1;
 
@@ -205,7 +212,7 @@ void EditProductInDB(){
                 printf("\nError saving");
             } 
         }
-
+        i++;
     }
     
     fclose(fp);

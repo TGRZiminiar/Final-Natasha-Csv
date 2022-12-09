@@ -46,9 +46,17 @@ void AddProductToCart(User *currentUser);
 void PrintUserCart();
 // ============ END USER CART =============
 
+// ============== USER CART ===============
+
+void CheckBill(User *currentUser);
+// ============ END USER CART =============
+
+
+
 
 
 void UserSelection(User *currentUser);
+
 
 
 
