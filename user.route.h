@@ -20,6 +20,24 @@ typedef struct {
   time_t timeStamp;
 } UserCart;
 
+typedef struct {
+  char cartOwner[50];
+  char productName[50];
+  int totalInCart;
+  int singlePriceProduct;
+  int totalCost;
+  time_t timeStamp;
+} UserPOS;
+
+
+typedef struct {
+
+  char productName[50];
+  int totalToCut;
+
+} CutStock;
+
+
 
 void FirstTouch(int *loginOrNot, User *currentUser);
 
@@ -43,7 +61,7 @@ void Login(int *loginOrNot, User *currentUser);
 
 void PrintProductForUser();
 void AddProductToCart(User *currentUser);
-void PrintUserCart();
+void PrintUserCart(User *currentUser);
 // ============ END USER CART =============
 
 // ============== USER CART ===============

@@ -77,7 +77,7 @@ void UserSelection(User *currentUser){
         break;
 
     case 3:
-        PrintUserCart();
+        PrintUserCart(currentUser);
         break;
 
     case 4:

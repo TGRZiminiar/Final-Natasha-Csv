@@ -7,6 +7,7 @@
 #include "user.route.h"
 
 void PrintCurrentUserStruct(User *currentUser){
+  
   printf("\n======\tCurrent User\t======\n");
   printf("UserName  \t:\t%s \n",currentUser->userName);
   printf("Email     \t:\t%s \n",currentUser->email);
