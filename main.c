@@ -7,11 +7,12 @@
 #include "user.route.h"
 
 void PrintCurrentUserStruct(User *currentUser){
-  printf("\n======Current User======\n");
-  printf("UserName\t:\t%s\n",currentUser->userName);
-  printf("Email\t:\t%s\n",currentUser->email);
-  printf("Phone\t:\t%s\n",currentUser->phone);
-  printf("Role\t:\t%s\n",currentUser->role);
+  
+  printf("\n======\tCurrent User\t======\n");
+  printf("UserName  \t:\t%s \n",currentUser->userName);
+  printf("Email     \t:\t%s \n",currentUser->email);
+  printf("Phone     \t:\t%s \n",currentUser->phone);
+  printf("Role      \t:\t%s \n",currentUser->role);
 
 }
 
@@ -30,21 +31,22 @@ int main(void){
 
   while (loginOrNot == 0){
     FirstTouch(&loginOrNot, currentUser);
-    printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
+    // printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
     if(loginOrNot == 0){
       system("cls");
       printf("========= Your UserName Or Password Is Wronge =========\n");
     }
   }
   
-  PrintCurrentUserStruct(currentUser);
 
   if(loginOrNot == 1){
+    PrintCurrentUserStruct(currentUser);
     AdminSelection(currentUser);
     printf("Admin Login\n");
   }
 
   else if(loginOrNot == 2){
+    PrintCurrentUserStruct(currentUser);
     UserSelection(currentUser);
     printf("User Login\n");
   }

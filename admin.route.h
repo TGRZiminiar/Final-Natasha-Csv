@@ -8,17 +8,20 @@ typedef struct {
   char productName[50];
   int productQuantity;
   int productPrice;
+  int productCost;
+  int productProfit;
   int minimumQuantity;
 } Product;
 
 typedef struct {  
+  char ownerName[50];
   char productName[50];
   int productQuantity;
   int productPrice;
   int productCost;
   int productProfit;
   time_t timeStamp;
-} Sales;
+} ProductPOS;
 
 
 
@@ -57,5 +60,23 @@ void RemoveUser();
 void FindProductByProductKey(int *productKey, Product *targetProduct);
 
 // =========== END USER CART ============
+
+
+
+// =========== ACCOUNTING SYSTEM =============
+
+
+// ========= END ACCOUNTING SYSTEM ============
+
+
+
+
+// ============ POINT OF SALE ==============
+
+void SelectPointOfSales();
+
+// ========= END POINT OF SALE ============
+
+
 
 #endif 
