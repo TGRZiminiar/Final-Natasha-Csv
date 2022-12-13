@@ -40,7 +40,7 @@ void AdminSelection(User *currentUser){
         break;
     
     case 3:
-        SelectPointOfSales();
+        SelectAccounting();
         break;
 
     case 4:
