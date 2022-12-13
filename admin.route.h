@@ -20,9 +20,15 @@ typedef struct {
   int productPrice;
   int productCost;
   int productProfit;
+  int totalCost;
   time_t timeStamp;
-} ProductPOS;
+  int singlePriceProduct;
+  int totalInCart;
+  int sumProfit;
+  int sumPrice;
+  int sumCost;
 
+} ProductPOS;
 
 
 // ============= ADMIN CHOICE =============
@@ -74,8 +80,14 @@ void FindProductByProductKey(int *productKey, Product *targetProduct);
 // ============ POINT OF SALE ==============
 
 void SelectPointOfSales();
-
 // ========= END POINT OF SALE ============
+
+
+// ============ ACCOUNTING ==============
+
+void SelectAccounting();
+
+// ========= END ACCOUNTING ============
 
 
 

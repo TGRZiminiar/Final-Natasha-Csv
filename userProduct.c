@@ -32,7 +32,14 @@ void CheckBillSelection(User *currentUser){
     printf("\n(4) Exist");
     printf("\n\nYour choice\t:\t");
     fflush(stdin);
-    scanf("%d",&choice);
+    
+    if(scanf("%d",&choice) != 1) {
+        system("clear");
+        printf("Please Enter Correct Type\n");
+        CheckBillSelection(currentUser);
+        return;
+    }
+
     switch (choice){
     case 1:
         PayBill(currentUser);
@@ -64,6 +71,7 @@ void CheckBillSelection(User *currentUser){
 
 
 void PrintProductForUser(){
+
     Product product;
     FILE *fp;
 
@@ -151,8 +159,15 @@ void AddProductToCart(User *currentUser){
         PrintProductForUser();
         
         printf("Enter Product Key To Add Product To Cart :\t");
-        scanf("%d",&productKey);
-        
+        // scanf("%d",&productKey);
+        if(scanf("%d",&productKey) != 1) {
+            system("clear");
+            printf("Please Enter Correct Type\n");
+            AddProductToCart(currentUser);
+            return;
+        }
+
+
         FindProductByProductKey(&productKey, targetProduct);
         // printf("TARGET PRODUCT %s\n",targetProduct->productName);
         
@@ -161,7 +176,7 @@ void AddProductToCart(User *currentUser){
             AddSaveProductCard(userCart, currentUser, targetProduct);
             printf("Do You Want To Continue This Process? [y/n]:\t");
             scanf("%s",&continueOrNot);
-
+            
         }
 
         printf("Do You Want To Continue This Process Or Not (y):(n)\n");

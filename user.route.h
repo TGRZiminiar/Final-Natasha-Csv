@@ -30,6 +30,8 @@ typedef struct {
 } UserPOS;
 
 
+
+
 typedef struct {
 
   char productName[50];
