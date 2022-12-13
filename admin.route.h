@@ -25,6 +25,9 @@ typedef struct {
   int singlePriceProduct;
   int totalInCart;
   int sumProfit;
+  int sumPrice;
+  int sumCost;
+
 } ProductPOS;
 
 

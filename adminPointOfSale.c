@@ -108,6 +108,7 @@ void SpecificWeekInMonth(){
 
             printSingleProduct(tempProduct[i]);
             counter++;
+            
         }
 
     }
@@ -227,17 +228,38 @@ void SpecificDayIn7Days(){
     time_t lastTime = time(NULL);
     time_t lastLastTime = time(NULL);
 
-    CalculateDay(&lastTime, &lastLastTime, &selectDate);    
+    CalculateDay(&lastLastTime, &lastTime, &selectDate);    
     
     int counter = 0;
+    // printf("Last Time :\t%s\n",ctime(&lastTime));
+    // printf("Last last Time :\t%s\n",ctime(&lastLastTime));
+    char last[50];
+    strcpy(last, ctime(&selectDate));
+    last[11] = '\0';
+    // char lastLast[50];
+    // strcpy(lastLast, ctime(&lastLastTime));
+    // lastLast[11] = '\0';
+    // printf("%.10s\n",lastLast);
 
     for (int i = 0; i < size; i++){
-        if(tempProduct[i].timeStamp < lastTime && lastTime > lastLastTime){
+        char tempTime[50];
+        strcpy(tempTime, ctime(&tempProduct[i].timeStamp));
+        tempTime[11] = '\0';
+
+        // if(tempProduct[i].timeStamp > lastTime && tempProduct[i].timeStamp < lastLastTime){
             
+        //     printSingleProduct(tempProduct[i]);
+        //     counter++;
+
+        // }
+        
+        if(strcmp(tempTime, last) == 0){
             printSingleProduct(tempProduct[i]);
             counter++;
         }
 
+        // printf("Time :\t%s\n",ctime(&tempProduct[i].timeStamp));
+        
     }
     
     printf("There Are :\t %d Transection In %.10s\n",counter, ctime(&selectDate));
@@ -259,13 +281,13 @@ void CalculateDay(time_t *lastTime, time_t *lastLastTime, time_t *selectDate){
 
 
     printf("------------- What Date Point Of Sales Do You Want -------------\n");
-    printf("(1) %.10s\n",ctime(&day1));
-    printf("(2) %.10s\n",ctime(&day2));
-    printf("(3) %.10s\n",ctime(&day3));
-    printf("(4) %.10s\n",ctime(&day4));
-    printf("(5) %.10s\n",ctime(&day5));
-    printf("(6) %.10s\n",ctime(&day6));
-    printf("(7) %.10s\n",ctime(&day7));
+    printf("(1) Last (24Hr) around %.10s\n",ctime(&day1));
+    printf("(2) Last (48Hr) around %.10s\n",ctime(&day2));
+    printf("(3) Last (72Hr) around %.10s\n",ctime(&day3));
+    printf("(4) Last (96Hr) around %.10s\n",ctime(&day4));
+    printf("(5) Last (120Hr) around %.10s\n",ctime(&day5));
+    printf("(6) Last (144Hr) around %.10s\n",ctime(&day6));
+    printf("(7) Last (168Hr) around %.10s\n",ctime(&day7));
     scanf("%d",&choice);
     switch (choice){
     case 1:
