@@ -100,11 +100,11 @@ void SpecificWeekInMonth(){
     time_t lastTime = time(NULL);
     time_t lastLastTime = time(NULL);
     
-    CalculateWeek(&lastTime, &lastLastTime);
+    CalculateWeek(&lastLastTime, &lastTime);
     int counter = 0;
 
     for (int i = 0; i < size; i++){
-        if(tempProduct[i].timeStamp < lastTime && lastTime > lastLastTime){
+        if(tempProduct[i].timeStamp > lastTime && tempProduct[i].timeStamp < lastLastTime){
 
             printSingleProduct(tempProduct[i]);
             counter++;
