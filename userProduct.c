@@ -10,7 +10,7 @@
 #include "user.route.h"
 #include "admin.route.h"
 
-void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetProduct);
+void AddSaveProductCart(UserCart *userCart, User *currentUser, Product *targetProduct);
 void PrintUserCartSpecific(char *target, UserCart itemsInCart[], int *itemsCount, int *sumPrice);
 void CheckBillSelection(User *currentUser);
 void EditItemInCart(User *currentUser);
@@ -173,7 +173,7 @@ void AddProductToCart(User *currentUser){
         
         if(productKey == 0){
             
-            AddSaveProductCard(userCart, currentUser, targetProduct);
+            AddSaveProductCart(userCart, currentUser, targetProduct);
             printf("Do You Want To Continue This Process? [y/n]:\t");
             scanf("%s",&continueOrNot);
             
@@ -187,7 +187,7 @@ void AddProductToCart(User *currentUser){
 }
 
 
-void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetProduct){
+void AddSaveProductCart(UserCart *userCart, User *currentUser, Product *targetProduct){
     
     FILE *fp;
     strcpy(userCart->cartOwner, currentUser->userName);
@@ -205,14 +205,14 @@ void AddSaveProductCard(UserCart *userCart, User *currentUser, Product *targetPr
         if(scanf("%d",&quantity) != 1) {
             system("clear");
             printf("Please Enter Correct Type\n");
-            AddSaveProductCard(userCart, currentUser, targetProduct);
+            AddSaveProductCart(userCart, currentUser, targetProduct);
             return;
         }
 
         if(quantity > targetProduct->productQuantity){
             printf("We Only have %d Item In Stock\n",targetProduct->productQuantity);
             printf("Please Enter Number Of Your Item Again\n");
-            AddSaveProductCard(userCart, currentUser, targetProduct);
+            AddSaveProductCart(userCart, currentUser, targetProduct);
             return;
         }
 
@@ -614,8 +614,8 @@ void UpdateStock(User *currentUser){
         sp1 = strtok(NULL, ",");
         updateProduct.productCost = atoi(sp1);
 
-        sp1 = strtok(NULL, ",");
-        updateProduct.productProfit = atoi(sp1);
+        // sp1 = strtok(NULL, ",");
+        // updateProduct.productProfit = atoi(sp1);
 
         sp1 = strtok(NULL, ",");
         updateProduct.minimumQuantity = atoi(sp1);
@@ -628,12 +628,12 @@ void UpdateStock(User *currentUser){
                 found = 1;
                 exist = true;
                 fprintf(fpTemp2,
-                    "%s,%d,%d,%d,%d,%d\n",
+                    "%s,%d,%d,%d,%d\n",
                     updateProduct.productName,
                     updateProduct.productPrice,
                     updateProduct.productQuantity - product[i].totalToCut,
                     updateProduct.productCost,
-                    updateProduct.productProfit,
+                    // updateProduct.productProfit,
                     updateProduct.minimumQuantity
                 );
 
@@ -650,12 +650,12 @@ void UpdateStock(User *currentUser){
 
         if(exist == false){
             fprintf(fpTemp2,
-            "%s,%d,%d,%d,%d,%d\n",
+            "%s,%d,%d,%d,%d\n",
             updateProduct.productName,
             updateProduct.productPrice,
             updateProduct.productQuantity,
             updateProduct.productCost,
-            updateProduct.productProfit,
+            // updateProduct.productProfit,
             updateProduct.minimumQuantity
         );}
 
@@ -694,20 +694,20 @@ void UpdateStock(User *currentUser){
             sp = strtok(NULL, ",");
             tempProduct.productCost = atoi(sp);
 
-            sp = strtok(NULL, ",");
-            tempProduct.productProfit = atoi(sp);
+            // sp = strtok(NULL, ",");
+            // tempProduct.productProfit = atoi(sp);
 
             sp = strtok(NULL, ",");
             tempProduct.minimumQuantity = atoi(sp);
 
          
             fprintf(fpTemp,
-            "%s,%d,%d,%d,%d,%d\n",
+            "%s,%d,%d,%d,%d\n",
                 tempProduct.productName,
                 tempProduct.productPrice,
                 tempProduct.productQuantity,
                 tempProduct.productCost,
-                tempProduct.productProfit,
+                // tempProduct.productProfit,
                 tempProduct.minimumQuantity
             );
         }

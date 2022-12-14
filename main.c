@@ -38,17 +38,16 @@ int main(void){
     }
   }
   
-
   if(loginOrNot == 1){
     PrintCurrentUserStruct(currentUser);
     AdminSelection(currentUser);
-    printf("Admin Login\n");
+    // printf("Admin Login\n");
   }
 
   else if(loginOrNot == 2){
     PrintCurrentUserStruct(currentUser);
     UserSelection(currentUser);
-    printf("User Login\n");
+    // printf("User Login\n");
   }
 
  

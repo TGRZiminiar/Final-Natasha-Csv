@@ -45,12 +45,11 @@ void PrintProduct(){
         
         sp = strtok(NULL, ",");
         product.productCost = atoi(sp);
-        printf("\tProduct Quantity              :\t%d\n", product.productCost);
+        printf("\tProduct Cost              :\t%d\n", product.productCost);
       
-        sp = strtok(NULL, ",");
-        product.productProfit = atoi(sp);
-        printf("\tProduct Quantity              :\t%d\n", product.productProfit);
-
+        // sp = strtok(NULL, ",");
+        // product.productProfit = atoi(sp);
+        printf("\tProduct Profit              :\t%d\n", product.productPrice - product.productCost);
 
         sp = strtok(NULL, ",");
         product.minimumQuantity = atoi(sp);
@@ -104,13 +103,13 @@ void AddProduct(){
         return;
     }
 
-    printf("\nEnter Product Profit:\t");
-    if(scanf("%d",&product.productProfit) != 1) {
-        system("clear");
-        printf("Please Enter Correct Type\n");
-        AddProduct();
-        return;
-    }
+    // printf("\nEnter Product Profit:\t");
+    // if(scanf("%d",&product.productProfit) != 1) {
+    //     system("clear");
+    //     printf("Please Enter Correct Type\n");
+    //     AddProduct();
+    //     return;
+    // }
 
     printf("\nEnter Product Minimum Quantity:\t");
      if(scanf("%d",&product.minimumQuantity) != 1) {
@@ -125,7 +124,7 @@ void AddProduct(){
     printf("\tProduct Price             :\t%d\n", product.productPrice);
     printf("\tProduct Quantity          :\t%d\n", product.productQuantity);
     printf("\tProduct Cost              :\t%d\n", product.productCost);
-    printf("\tProduct Profit            :\t%d\n", product.productProfit);
+    // printf("\tProduct Profit            :\t%d\n", product.productProfit);
     printf("\tProduct minimumQuantity   :\t%d\n", product.minimumQuantity);
     printf("\n\n");
     printf("\nConfirm To Add This Product? [y/n]:\t");
@@ -136,12 +135,12 @@ void AddProduct(){
     if(saveProduct == 'y'){
         fp = fopen("database/Product.csv","a+");
         fprintf(fp,
-            "%s,%d,%d,%d,%d,%d\n",
+            "%s,%d,%d,%d,%d\n",
             product.productName,
             product.productPrice,
             product.productQuantity,
             product.productCost,
-            product.productProfit,
+            // product.productProfit,
             product.minimumQuantity
         );
         if(fwrite != 0){
@@ -206,8 +205,8 @@ void EditProductInDB(){
         sp = strtok(NULL, ",");
         updateProduct.productCost = atoi(sp);
 
-        sp = strtok(NULL, ",");
-        updateProduct.productProfit = atoi(sp);
+        // sp = strtok(NULL, ",");
+        // updateProduct.productProfit = atoi(sp);
 
         sp = strtok(NULL, ",");
         updateProduct.minimumQuantity = atoi(sp);
@@ -244,13 +243,13 @@ void EditProductInDB(){
                 return;
             }
             
-            printf("Current Product Profit For Product is %d: Please Enter New Value :\t", updateProduct.productProfit);
-            if(scanf("%d",&updateProduct.productProfit) != 1) {
-                system("clear");
-                printf("Please Enter Correct Type\n");
-                EditProductInDB();
-                return;
-            }
+            // printf("Current Product Profit For Product is %d: Please Enter New Value :\t", updateProduct.productProfit);
+            // if(scanf("%d",&updateProduct.productProfit) != 1) {
+            //     system("clear");
+            //     printf("Please Enter Correct Type\n");
+            //     EditProductInDB();
+            //     return;
+            // }
 
             printf("Current Product Minimum Quantity For Product is %d: Please Enter New Value :\t", updateProduct.minimumQuantity);
             if(scanf("%d",&updateProduct.minimumQuantity) != 1) {
@@ -261,12 +260,12 @@ void EditProductInDB(){
             }
 
             fprintf(fpTemp,
-                "%s,%d,%d,%d,%d,%d\n",
+                "%s,%d,%d,%d,%d\n",
                 updateProduct.productName,
                 updateProduct.productPrice,
                 updateProduct.productQuantity,
                 updateProduct.productCost,
-                updateProduct.productProfit,
+                // updateProduct.productProfit,
                 updateProduct.minimumQuantity
             );
             
@@ -282,12 +281,12 @@ void EditProductInDB(){
         else {
 
             fprintf(fpTemp,
-                "%s,%d,%d,%d,%d,%d\n",
+                "%s,%d,%d,%d,%d\n",
                 updateProduct.productName,
                 updateProduct.productPrice,
                 updateProduct.productQuantity,
                 updateProduct.productCost,
-                updateProduct.productProfit,
+                // updateProduct.productProfit,
                 updateProduct.minimumQuantity
             );
 
@@ -324,20 +323,20 @@ void EditProductInDB(){
             sp = strtok(NULL, ",");
             tempProduct.productCost = atoi(sp);
 
-            sp = strtok(NULL, ",");
-            tempProduct.productProfit = atoi(sp);
+            // sp = strtok(NULL, ",");
+            // tempProduct.productProfit = atoi(sp);
 
             sp = strtok(NULL, ",");
             tempProduct.minimumQuantity = atoi(sp);
 
          
             fprintf(fp,
-            "%s,%d,%d,%d,%d,%d\n",
+            "%s,%d,%d,%d,%d\n",
                 tempProduct.productName,
                 tempProduct.productPrice,
                 tempProduct.productQuantity,
                 tempProduct.productCost,
-                tempProduct.productProfit,
+                // tempProduct.productProfit,
                 tempProduct.minimumQuantity
             );
         }
@@ -402,19 +401,19 @@ void RemoveProduct(){
             sp = strtok(NULL, ",");
             tempProduct.productCost = atoi(sp);
 
-            sp = strtok(NULL, ",");
-            tempProduct.productProfit = atoi(sp);
+            // sp = strtok(NULL, ",");
+            // tempProduct.productProfit = atoi(sp);
 
             sp = strtok(NULL, ",");
             tempProduct.minimumQuantity = atoi(sp);
 
             fprintf(fpTemp,
-                "%s,%d,%d,%d,%d,%d\n",
+                "%s,%d,%d,%d,%d\n",
                 tempProduct.productName,
                 tempProduct.productPrice,
                 tempProduct.productQuantity,
                 tempProduct.productCost,
-                tempProduct.productProfit,
+                // tempProduct.productProfit,
                 tempProduct.minimumQuantity
             );
             if(fwrite != 0){
@@ -452,19 +451,19 @@ void RemoveProduct(){
             sp = strtok(NULL, ",");
             tempProduct.productCost = atoi(sp);
 
-            sp = strtok(NULL, ",");
-            tempProduct.productProfit = atoi(sp);
+            // sp = strtok(NULL, ",");
+            // tempProduct.productProfit = atoi(sp);
 
             sp = strtok(NULL, ",");
             tempProduct.minimumQuantity = atoi(sp);
 
             fprintf(fp,
-                "%s,%d,%d,%d,%d,%d\n",
+                "%s,%d,%d,%d,%d\n",
                 tempProduct.productName,
                 tempProduct.productPrice,
                 tempProduct.productQuantity,
                 tempProduct.productCost,
-                tempProduct.productProfit,
+                // tempProduct.productProfit,
                 tempProduct.minimumQuantity
             );
             if(fwrite != 0){
