@@ -18,24 +18,33 @@ void Login(int *loginOrNot, User *currentUser){
 
     char userName[50];
     char password[50];
-
+    red();
     printf("\n------------- Please Fill UserName And Password ---------------\n\n");
-    printf("\tUserName  :\t");
+    reset();
+    printf("UserName\t:\t");
+    fflush(stdin);
+    yellow();
     fgets(userName, 50, stdin);
-    userName[strlen(userName)-1] = 0;
+    reset();
+    userName[strlen(userName)-1] = '\0';
 
-    printf("\tPassword  :\t");
+    printf("Password\t:\t");
+    yellow();
     fgets(password, 50, stdin);
-    password[strlen(password)-1] = 0;
+    reset();
+    password[strlen(password)-1] = '\0';
 
+    // printf("UserName %s\n",userName);
+    // printf("Password %s\n",password);
 
     fp = fopen("database/User.csv","r");
     char line[1000];
     char *sp;
 
-    while (fgets(line, 1000, fp) != NULL){
-        sp = strtok(line, ",");
 
+    while (fgets(line, 1000, fp) != NULL){
+
+        sp = strtok(line, ",");
         strcpy(user.userName, sp);
         
         sp = strtok(NULL, ",");
@@ -53,7 +62,9 @@ void Login(int *loginOrNot, User *currentUser){
         user.role[strlen(user.role)-1] = 0;
 
         if(strcmp(user.userName, userName) == 0 && strcmp(user.password, password) == 0){
-            printf("Login Success \n");
+            green();
+            printf("\n\t\t     Login SuccessFully!\n");
+            reset();
             strcpy(currentUser->userName, user.userName);
             strcpy(currentUser->email, user.email);
             strcpy(currentUser->phone, user.phone);

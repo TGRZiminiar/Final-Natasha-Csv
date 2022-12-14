@@ -17,14 +17,25 @@
 
 void FirstTouch(int *loginOrNot, User *currentUser){
     int choice;
-    // system("cls");
-    printf("\t============WELCOME TO SLEEP SHOP============");
-    printf("\n\nPlease select your prefered operation");
-    printf("\n(1) Login");
-    printf("\n(2) Register");
-    printf("\n(3) Exist");
+    system("cls");
+    green();
+    printf("---------------    WELCOME TO SLEEP SHOP   ---------------\n\n");
+    red();
+    reset();
+    printf("\t  Please Select Your Prefered Operation\n\n");
+    printf("-> (1) Login\n");
+    printf("-> (2) Register\n");
+    printf("-> (3) Exist\n");
     printf("\n\nYour choice\t:\t");
-    scanf("%d",&choice);
+
+    yellow();
+    if(scanf("%d",&choice) != 1) {
+        system("clear");
+        printf("Please Enter Correct Type\n");
+        FirstTouch(loginOrNot, currentUser);
+        return;
+    }
+    reset();
     fgetc(stdin);
 
     switch (choice){
@@ -69,10 +80,11 @@ void UserSelection(User *currentUser){
 
     switch (choice){
     case 1:
-        PrintProductForUser();
+        PrintProductForUserSelection(currentUser);
         break;
 
     case 2:
+        printf("ADD PRODUCT RUNNING\n");
         AddProductToCart(currentUser);
         break;
 
@@ -100,3 +112,33 @@ void UserSelection(User *currentUser){
 }
 
 
+void white () {
+  printf("\033[0;37m");
+}
+void black () {
+  printf("\033[0;30m");
+}
+void red () {
+  printf("\033[0;31m");
+}
+void green () {
+  printf("\033[0;32m");
+}
+
+void yellow() {
+  printf("\033[1;33m");
+}
+void blue() {
+  printf("\033[1;34m");
+}
+void purple() {
+  printf("\033[1;35m");
+}
+void cyan() {
+  printf("\033[1;36m");
+}
+
+
+void reset () {
+  printf("\033[0m");
+}

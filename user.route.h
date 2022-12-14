@@ -61,9 +61,11 @@ void Login(int *loginOrNot, User *currentUser);
 
 // ============== USER CART ===============
 
-void PrintProductForUser();
+void PrintProductForUser(User *currentUser);
+void PrintProductForUserSelection(User *currentUser);
 void AddProductToCart(User *currentUser);
 void PrintUserCart(User *currentUser);
+
 // ============ END USER CART =============
 
 // ============== USER CART ===============
@@ -79,6 +81,16 @@ void UserSelection(User *currentUser);
 
 
 
+
+void white ();
+void black ();
+void red ();
+void green ();
+void yellow();
+void blue();
+void purple();
+void cyan();
+void reset ();
 
 
 #endif 

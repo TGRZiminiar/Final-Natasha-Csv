@@ -9,6 +9,8 @@ void CalculateWeekAccounting(time_t *lastTime, time_t *lastLastTime, time_t *sel
 void DeleteDuplicate(ProductPOS product[], int *size);
 void ProfitByProductName();
 void ProfitTimeRange();
+void SortProduct(ProductPOS product[], int size);
+void CalculateMonthAccounting(char target[], char fullTarget[]);
 
 void SelectAccounting(){
 
@@ -20,7 +22,7 @@ void SelectAccounting(){
     printf("\n(3) Profit Time Range");
     printf("\n(4) Exist");
     printf("\n\nYour choice\t:\t");
-     if(scanf("%d",&choice) != 1) {
+    if(scanf("%d",&choice) != 1) {
         system("clear");
         printf("Please Enter Correct Type\n");
         SelectPointOfSales();
@@ -99,7 +101,7 @@ void SeeAllProfit(){
 
     int sumProfit = 0;
     int sumCost = 0;
-
+    int moneyReceive = 0;
 
     while (fgets(line, 1000, fpProduct) != NULL){
 
@@ -116,29 +118,36 @@ void SeeAllProfit(){
         sp = strtok(NULL, ",");
         productData.productCost = atoi(sp);
       
-        sp = strtok(NULL, ",");
-        productData.productProfit = atoi(sp);
+        // sp = strtok(NULL, ",");
+        // productData.productProfit = atoi(sp);
 
         sp = strtok(NULL, ",");
         productData.minimumQuantity = atoi(sp);
 
         for (int i = 0; i < size; i++){
             if(strcmp(tempProduct[i].productName, productData.productName) == 0){
-                tempProduct[i].productPrice = tempProduct[i].totalCost;
+                // printf("PRODUCT TOTAL IN CART %d\n",tempProduct[i].totalInCart);
+                tempProduct[i].productPrice = productData.productPrice;
+                tempProduct[i].productProfit = productData.productPrice - productData.productCost;
                 tempProduct[i].productCost = productData.productCost;
-                tempProduct[i].productProfit = productData.productProfit;
-                tempProduct[i].sumProfit = tempProduct[i].totalInCart * productData.productProfit;
-                tempProduct[i].productQuantity = productData.productQuantity;
-                tempProduct[i].singlePriceProduct = productData.productPrice;
-                sumProfit += tempProduct[i].sumProfit;
-                sumCost += tempProduct[i].productCost;
+                // tempProduct[i].sumProfit = tempProduct[i].totalInCart * productData.productProfit;
+                // tempProduct[i].productQuantity = productData.productQuantity;
+                // sumProfit += tempProduct[i].sumProfit;
+                // sumCost += tempProduct[i].productCost;
+                moneyReceive += tempProduct[i].productPrice * tempProduct[i].totalInCart;
+                sumProfit += tempProduct[i].productProfit * tempProduct[i].totalInCart;
+                sumCost += tempProduct[i].productCost * tempProduct[i].totalInCart;
             }
         }
     }
 
-    printf("Product Profit Of All Time :\t%d\n", sumProfit);
-    printf("Product Cost Of All Time :\t%d\n", sumCost);
+    printf("Money Receieve Of All Time  :\t%d\n", moneyReceive);
+    printf("Product Cost Of All Time    :\t%d\n", sumCost);
+    printf("Product Profit Of All Time  :\t%d\n", sumProfit);
 
+
+    SelectAccounting();
+    return;
 }
 
 
@@ -200,20 +209,20 @@ void ProfitByProductName(){
         sp = strtok(NULL, ",");
         productData.productCost = atoi(sp);
       
-        sp = strtok(NULL, ",");
-        productData.productProfit = atoi(sp);
+        // sp = strtok(NULL, ",");
+        // productData.productProfit = atoi(sp);
 
         sp = strtok(NULL, ",");
         productData.minimumQuantity = atoi(sp);
 
         for (int i = 0; i < size; i++){
             if(strcmp(tempProduct[i].productName, productData.productName) == 0){
-                tempProduct[i].productPrice = tempProduct[i].totalCost;
+                tempProduct[i].productPrice = productData.productPrice;
                 tempProduct[i].productCost = productData.productCost;
-                tempProduct[i].productProfit = productData.productProfit;
+                tempProduct[i].productProfit = productData.productPrice - productData.productCost;
                 tempProduct[i].sumProfit = tempProduct[i].totalInCart * productData.productProfit;
                 tempProduct[i].productQuantity = productData.productQuantity;
-                tempProduct[i].singlePriceProduct = productData.productPrice;
+                // tempProduct[i].singlePriceProduct = productData.productPrice;
             }
         }
     }
@@ -221,54 +230,23 @@ void ProfitByProductName(){
 
     DeleteDuplicate(tempProduct, &size);
 
-    
-    printf("What Product Do You Want To See Profit\n");
+    SortProduct(tempProduct, size);
+    int counter = 1;
 
     for (int i = 0; i < size; i++){
-
         if(strcmp(tempProduct[i].productName, "None") != 0){
-
-            printf("Product Name                :\t%s \n", tempProduct[i].productName);
-            // printf("productCost             :\t %d \n", tempProduct[i].productCost);
-            // printf("productPrice            :\t %d \n", tempProduct[i].productPrice);
-            // printf("productProfit           :\t %d \n", tempProduct[i].productProfit);
-            // printf("singlePriceProduct      :\t %d \n", tempProduct[i].singlePriceProduct);
-            // printf("productCost             :\t %d \n", tempProduct[i].productCost);
-            // printf("sumProfit               :\t %d \n", tempProduct[i].sumProfit);
-            // printf("ToTal Sell              :\t %d \n", tempProduct[i].totalInCart);
-            // printf("\n\n");
-       
-        }
-    }
-
-    char input[50];
-
-    printf("\nEnter Product Name That You Want To See :\t");
-    if(scanf("%s",&input) != 1) {
-        system("clear");
-        printf("Please Enter Correct Type\n");
-        ProfitByProductName();
-        return;
-    }
-
-    printf("\n");
-    for (int i = 0; i < size; i++){
-        if(strcmp(tempProduct[i].productName, input) == 0 && strcmp(tempProduct[i].productName, "None") != 0){
-            printf("Product Name             :\t %s \n", tempProduct[i].productName);
-            printf("Product Cost             :\t %d \n", tempProduct[i].productCost);
-            printf("Product Profit           :\t %d \n", tempProduct[i].productProfit);
-            printf("Sum Profit               :\t %d \n", tempProduct[i].sumProfit);
-            printf("ToTal Sell               :\t %d \n", tempProduct[i].totalInCart);
+            printf("Rank %d\n",counter);
+            printf("Product Name    :\t%s\n",tempProduct[i].productName);
+            printf("Money Receive   :\t%d\n",tempProduct[i].productPrice * tempProduct[i].totalInCart);
+            printf("Product Cost    :\t%d\n",tempProduct[i].productCost * tempProduct[i].totalInCart);
+            printf("Product ProFit  :\t%d\n",tempProduct[i].productProfit * tempProduct[i].totalInCart);
             printf("\n\n");
-       
+            counter++;
         }
     }
     
-
-    // printf("Sum Cost    :\t%d\n",sumCost);
-    // printf("Sum Price    :\t%d\n",sumPrice);
-    // printf("Sum Profit  :\t%d\n",sumProfit);
-
+    SelectAccounting();
+    return;
 
 }
 
@@ -276,7 +254,6 @@ void ProfitByProductName(){
 
 
 void DeleteDuplicate(ProductPOS product[], int *size){
-    
     
     for (int i = 0; i < *size; i++) {
         for (int j = 0; j < *size; j++) {
@@ -287,7 +264,7 @@ void DeleteDuplicate(ProductPOS product[], int *size){
                 strcpy(product[j].productName, "None");
                 product[i].totalInCart += product[j].totalInCart;
                 product[i].sumProfit += product[j].sumProfit;
-                product[i].productCost += product[j].productCost;
+                // product[i].productCost += product[j].productCost;
                 product[j].productQuantity = 0;
 
             }
@@ -356,17 +333,17 @@ void ProfitTimeRange(){
         sp = strtok(NULL, ",");
         productData.productCost = atoi(sp);
       
-        sp = strtok(NULL, ",");
-        productData.productProfit = atoi(sp);
+        // sp = strtok(NULL, ",");
+        // productData.productProfit = atoi(sp);
 
         sp = strtok(NULL, ",");
         productData.minimumQuantity = atoi(sp);
 
         for (int i = 0; i < size; i++){
             if(strcmp(tempProduct[i].productName, productData.productName) == 0){
-                tempProduct[i].productPrice = tempProduct[i].totalCost;
+                tempProduct[i].productPrice = productData.productPrice;
                 tempProduct[i].productCost = productData.productCost;
-                tempProduct[i].productProfit = productData.productProfit;
+                tempProduct[i].productProfit = productData.productPrice - productData.productCost;
                 tempProduct[i].sumProfit = tempProduct[i].totalInCart * productData.productProfit;
                 tempProduct[i].productQuantity = productData.productQuantity;
                 tempProduct[i].singlePriceProduct = productData.productPrice;
@@ -374,32 +351,131 @@ void ProfitTimeRange(){
         }
     }
 
-    time_t selectDate;
-    time_t lastTime = time(NULL);
-    time_t lastLastTime = time(NULL);
+    // DeleteDuplicate(tempProduct, &size);
 
-    CalculateWeekAccounting(&lastTime, &lastLastTime, &selectDate);  
-
-    int counter = 0;
-    int sumProfit = 0;
-    int sumCost = 0;
     
-    for (int i = 0; i < size; i++){
-        if(tempProduct[i].timeStamp < lastTime && lastTime > lastLastTime){
-            printf("TIME :\t%s\n",ctime(&tempProduct[i].timeStamp));
-            sumProfit += tempProduct[i].sumProfit;
-            sumCost += tempProduct[i].productCost;
-            counter++;
 
+    char target[50];
+    char fullTarget[50];
+    CalculateMonthAccounting(target, fullTarget);
+
+    int sumCost = 0;
+    int sumProfit = 0;
+    int moneyReceive = 0;
+
+    for (int i = 0; i < size; i++){
+
+        char tempTime[50];
+        strcpy(tempTime, ctime(&tempProduct[i].timeStamp));
+        tempTime[7] = '\0';
+        char result[50] = {tempTime[4],tempTime[5],tempTime[6],'\0'};
+
+        if(strcmp(target,result) == 0 && strcmp(tempProduct[i].productName, "None") != 0){
+            
+            moneyReceive += tempProduct[i].productPrice * tempProduct[i].totalInCart;
+            sumProfit += tempProduct[i].productProfit * tempProduct[i].totalInCart;
+            sumCost += tempProduct[i].productCost * tempProduct[i].totalInCart;
+
+            // printf("Product Name    :\t%s\n",tempProduct[i].productName);
+            // printf("Money Receive   :\t%d\n",tempProduct[i].productPrice * tempProduct[i].totalInCart);
+            // printf("Product Cost    :\t%d\n",tempProduct[i].productCost * tempProduct[i].totalInCart);
+            // printf("Product ProFit  :\t%d\n",tempProduct[i].productProfit * tempProduct[i].totalInCart);
+            // printf("\n\n");
         }
     }
-    
-    // printf("There Are %d Time Transaction In %c To", counter, ctime(&lastTime));
-    // printf("%s\n", ctime(&lastLastTime));
-    // printf("Profit Sum Is :\t%d\n", sumProfit);
-    // printf("Cost Sum Is :\t%d\n", sumCost);
+    printf("Accounting In %s \n",fullTarget);
+    printf("Money Receive   :\t%d\n",moneyReceive);
+    printf("Product Cost    :\t%d\n",sumCost);
+    printf("Product Profit  :\t%d\n",sumProfit);
 
+    SelectAccounting();
+    return;
 }
+
+
+void CalculateMonthAccounting(char target[], char fullTarget[]){
+    printf("------------- What Month Do You Want -------------\n");
+    printf("(1) %s\n","January");
+    printf("(2) %s\n","February");
+    printf("(3) %s\n","March");
+    printf("(4) %s\n","April");
+    printf("(5) %s\n","May");
+    printf("(6) %s\n","June");
+    printf("(7) %s\n","July");
+    printf("(8) %s\n","August");
+    printf("(9) %s\n","September");
+    printf("(10) %s\n","October");
+    printf("(11) %s\n","November");
+    printf("(12) %s\n","December");
+    
+    fflush(stdin);
+    printf("Your Input :\t");
+    int choice;
+    scanf("%d",&choice);
+
+    switch (choice){
+    case 1:
+        strcpy(target,"Jan");
+        strcpy(fullTarget,"January");
+        break;
+    
+    case 2:
+        strcpy(target,"Feb");
+        strcpy(fullTarget,"February");
+        break;
+
+    case 3:
+        strcpy(target,"Mar");
+        strcpy(fullTarget,"March");
+        break;
+
+    case 4:
+        strcpy(target,"Apr");
+        strcpy(fullTarget,"April");
+        break;
+
+    case 5:
+        strcpy(target,"May");
+        strcpy(fullTarget,"May");
+        break;
+    case 6:
+        strcpy(target,"Jun");
+        strcpy(fullTarget,"June");
+        break;
+    case 7:
+        strcpy(target,"Jul");
+        strcpy(fullTarget,"July");
+        break;
+    case 8:
+        strcpy(target,"Aug");
+        strcpy(fullTarget,"August");
+        break;
+    case 9:
+        strcpy(target,"Sep");
+        strcpy(fullTarget,"September");
+        break;
+    case 10:
+        strcpy(target,"Oct");
+        strcpy(fullTarget,"October");
+        break;
+    case 11:
+        strcpy(target,"Nov");
+        strcpy(fullTarget,"November");
+        break;
+    case 12:
+        strcpy(target,"Dec");
+        strcpy(fullTarget,"December");
+        break;
+    
+    default:
+        system("clear");
+        printf("Please Enter A Correct Choice\n");
+        CalculateMonthAccounting(target, fullTarget);
+        return;
+        break;
+    }
+}
+
 
 void CalculateWeekAccounting(time_t *lastTime, time_t *lastLastTime, time_t *selectDate){
 
@@ -465,3 +541,20 @@ void CalculateWeekAccounting(time_t *lastTime, time_t *lastLastTime, time_t *sel
         return;
         break;
 }}
+
+
+void SortProduct(ProductPOS product[], int size){
+
+    for (int i = 0; i < size-1; i++){
+        for (int j = 0; j < size-1-i; j++){
+            if(product[j].productProfit < product[j+1].productProfit){
+                ProductPOS temp = product[j];
+                product[j] = product[j+1];
+                product[j+1] = temp;
+            }
+        }
+        
+    }
+    
+
+}

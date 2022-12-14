@@ -7,13 +7,13 @@
 #include "user.route.h"
 
 void PrintCurrentUserStruct(User *currentUser){
-  
-  printf("\n======\tCurrent User\t======\n");
-  printf("UserName  \t:\t%s \n",currentUser->userName);
-  printf("Email     \t:\t%s \n",currentUser->email);
-  printf("Phone     \t:\t%s \n",currentUser->phone);
-  printf("Role      \t:\t%s \n",currentUser->role);
-
+  blue();
+  printf("\n----------------------  Current User  ----------------------\n\n");
+  reset();
+  printf("UserName  \t:\t\033[0;33m%s \033[0m\n",currentUser->userName);
+  printf("Email     \t:\t\033[0;33m%s \033[0m\n",currentUser->email);
+  printf("Phone     \t:\t\033[0;33m%s \033[0m\n",currentUser->phone);
+  printf("Role      \t:\t\033[0;33m%s \033[0m\n",currentUser->role);
 }
 
 int main(void){
@@ -33,22 +33,21 @@ int main(void){
     FirstTouch(&loginOrNot, currentUser);
     // printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
     if(loginOrNot == 0){
-      system("cls");
+      // system("cls");
       printf("========= Your UserName Or Password Is Wronge =========\n");
     }
   }
   
-
   if(loginOrNot == 1){
     PrintCurrentUserStruct(currentUser);
     AdminSelection(currentUser);
-    printf("Admin Login\n");
+    // printf("Admin Login\n");
   }
 
   else if(loginOrNot == 2){
     PrintCurrentUserStruct(currentUser);
     UserSelection(currentUser);
-    printf("User Login\n");
+    // printf("User Login\n");
   }
 
  
