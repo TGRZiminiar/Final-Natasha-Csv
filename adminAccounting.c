@@ -142,9 +142,12 @@ void SeeAllProfit(){
     }
 
     printf("Money Receieve Of All Time  :\t%d\n", moneyReceive);
-    printf("Product Profit Of All Time  :\t%d\n", sumProfit);
     printf("Product Cost Of All Time    :\t%d\n", sumCost);
+    printf("Product Profit Of All Time  :\t%d\n", sumProfit);
 
+
+    SelectAccounting();
+    return;
 }
 
 
@@ -242,6 +245,8 @@ void ProfitByProductName(){
         }
     }
     
+    SelectAccounting();
+    return;
 
 }
 
@@ -382,7 +387,8 @@ void ProfitTimeRange(){
     printf("Product Cost    :\t%d\n",sumCost);
     printf("Product Profit  :\t%d\n",sumProfit);
 
-
+    SelectAccounting();
+    return;
 }
 
 
@@ -400,9 +406,12 @@ void CalculateMonthAccounting(char target[], char fullTarget[]){
     printf("(10) %s\n","October");
     printf("(11) %s\n","November");
     printf("(12) %s\n","December");
+    
+    fflush(stdin);
+    printf("Your Input :\t");
     int choice;
-
     scanf("%d",&choice);
+
     switch (choice){
     case 1:
         strcpy(target,"Jan");

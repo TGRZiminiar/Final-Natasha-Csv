@@ -18,7 +18,7 @@ void SelectPointOfSales(){
     printf("\n\nHey Admin! What you want to do here");
     printf("\n(1) See Some Specific Days In 7 Days");
     printf("\n(2) See Some Week In Month");
-    printf("\n(5) Exist");
+    printf("\n(3) Exist");
     printf("\n\nYour choice\t:\t");
     if(scanf("%d",&choice) != 1) {
         system("clear");
@@ -37,15 +37,6 @@ void SelectPointOfSales(){
         break;
 
     case 3:
-        // PrintUserCart(currentUser);
-        break;
-
-    case 4:
-        // printf("CHECK BILL\n");
-        // CheckBill(currentUser);
-        break;
-    
-    case 5:
         printf("\n\t\t Bye Bye :)\n\n");
         exit(0);
         break;
@@ -129,6 +120,9 @@ void SpecificWeekInMonth(){
 
     }
 
+    SelectPointOfSales();
+    return;
+    
     // printf("There Are :\t %d Transection In %.10s To",counter, ctime(&lastTime));
     // printf("%.10s\n", ctime(&lastLastTime));
 
@@ -284,7 +278,8 @@ void SpecificDayIn7Days(){
     }
     
     printf("There Are :\t %d Transection In %.10s\n",counter, ctime(&selectDate));
-
+    SelectPointOfSales();
+    return;
 }
 
 void CalculateDay(time_t *lastLastTime, time_t *lastTime, time_t *selectDate){
