@@ -61,9 +61,11 @@ void Login(int *loginOrNot, User *currentUser);
 
 // ============== USER CART ===============
 
-void PrintProductForUser();
+void PrintProductForUser(User *currentUser);
+void PrintProductForUserSelection(User *currentUser);
 void AddProductToCart(User *currentUser);
 void PrintUserCart(User *currentUser);
+
 // ============ END USER CART =============
 
 // ============== USER CART ===============

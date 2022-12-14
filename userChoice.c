@@ -69,10 +69,11 @@ void UserSelection(User *currentUser){
 
     switch (choice){
     case 1:
-        PrintProductForUser();
+        PrintProductForUserSelection(currentUser);
         break;
 
     case 2:
+        printf("ADD PRODUCT RUNNING\n");
         AddProductToCart(currentUser);
         break;
 

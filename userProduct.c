@@ -20,6 +20,8 @@ void SaveUserPos(User *currentUser);
 void UpdateUserCart(User *currentUser);
 void UpdateStock(User *currentUser);
 void SumCutStock(CutStock product[], int size);
+void CheckIfProductExistInCart(User *currentUser, UserCart *userCart);
+void SaveProductToCart(UserCart *userCart);
 
 void CheckBillSelection(User *currentUser){
     
@@ -70,7 +72,7 @@ void CheckBillSelection(User *currentUser){
 }
 
 
-void PrintProductForUser(){
+void PrintProductForUserSelection(User *currentUser){
 
     Product product;
     FILE *fp;
@@ -101,7 +103,45 @@ void PrintProductForUser(){
         i++;
     }
 
-    fclose(fp);    
+    fclose(fp); 
+    UserSelection(currentUser);
+    return;   
+}
+
+void PrintProductForUser(User *currentUser){
+
+    Product product;
+    FILE *fp;
+
+    fp = fopen("database/Product.csv","r");
+    printf("\n ****Product Information****\n");
+    int i = 1;
+    char line[1000];
+    char *sp;
+
+    while (fgets(line, 1000, fp) != NULL){
+        // printf("\n%s\n",line);
+        printf("----------- Product Key : %d -------------\n\n",i);
+
+        sp = strtok(line, ",");
+        strcpy(product.productName, sp);
+        printf("\tProduct Name                  :\t%s\n", product.productName);
+        
+        sp = strtok(NULL, ",");
+        product.productPrice = atoi(sp);
+        printf("\tProduct Price                 :\t%d\n", product.productPrice);
+
+        sp = strtok(NULL, ",");
+        product.productQuantity = atoi(sp);
+        printf("\tProduct Quantity              :\t%d\n", product.productQuantity);
+
+        printf("\n\n");
+        i++;
+    }
+
+    fclose(fp); 
+    // UserSelection(currentUser);
+    return;   
 }
 
 
@@ -151,15 +191,16 @@ void AddProductToCart(User *currentUser){
     userCart = calloc(1, sizeof(UserCart));
 
     char continueOrNot = 'y';
-    int productKey;
+    int productKey = 0;
 
     while (continueOrNot == 'y'){
 
         printf("Add Product To Your Cart\n");
-        PrintProductForUser();
+        PrintProductForUser(currentUser);
         
         printf("Enter Product Key To Add Product To Cart :\t");
         // scanf("%d",&productKey);
+        fflush(stdin);
         if(scanf("%d",&productKey) != 1) {
             system("clear");
             printf("Please Enter Correct Type\n");
@@ -175,15 +216,29 @@ void AddProductToCart(User *currentUser){
             
             AddSaveProductCart(userCart, currentUser, targetProduct);
             printf("Do You Want To Continue This Process? [y/n]:\t");
-            scanf("%s",&continueOrNot);
-            
+            if(scanf("%s",&continueOrNot) != 1) {
+                system("clear");
+                printf("Please Enter Correct Type\n");
+                AddProductToCart(currentUser);
+                return;
+            }
         }
 
-        printf("Do You Want To Continue This Process Or Not (y):(n)\n");
-        scanf("%s",&continueOrNot);
+        else {
+            printf("Do You Want To Continue This Process Or Not [y/n]:\t");
+            if(scanf("%s",&continueOrNot) != 1) {
+                system("clear");
+                printf("Please Enter Correct Type\n");
+                AddProductToCart(currentUser);
+                return;
+            }
+
+        }
 
     }
 
+    UserSelection(currentUser);
+    return;
 }
 
 
@@ -234,39 +289,146 @@ void AddSaveProductCart(UserCart *userCart, User *currentUser, Product *targetPr
     
     char saveProductToCart;
     scanf("%s",&saveProductToCart);
+    bool found = false;
 
     if(saveProductToCart == 'y'){
 
-        fp = fopen("database/UserCart.csv","a+");
+        CheckIfProductExistInCart(currentUser, userCart);
 
-        if(fp == NULL){
+    }
+}
+
+void CheckIfProductExistInCart(User *currentUser, UserCart *userCart){
+
+    FILE *fp, *fpTemp;
+
+    fp = fopen("database/UserCart.csv","r");
+    
+    if(fp == NULL){
+        printf("Error Opening UserCart.csv\n");
+        return;
+    }
+
+    UserCart tempUserCart[1000];
+    int size = 0;
+    char line[1000];
+    char *sp;
+    int i = 0;
+
+    while (fgets(line, 1000, fp) != NULL){
+        sp = strtok(line, ",");
+        strcpy(tempUserCart[i].cartOwner, sp);
+
+        sp = strtok(NULL, ",");
+        strcpy(tempUserCart[i].productName, sp);
+
+        sp = strtok(NULL, ",");
+        tempUserCart[i].singlePriceProduct = atoi(sp);
+
+        sp = strtok(NULL, ",");
+        tempUserCart[i].totalInCart = atoi(sp);
+
+        sp = strtok(NULL, ",");
+        tempUserCart[i].totalCost = atoi(sp);
+
+        sp = strtok(NULL, ",");
+        int tempTime = atoi(sp);
+        tempUserCart[i].timeStamp = (time_t) tempTime;
+
+        // if(strcmp(tempUserCart[i].cartOwner, userCart->cartOwner) == 0 && strcmp(tempUserCart[i].productName, userCart->cartOwner) == 0){
+        //     tempUserCart[i].totalInCart += userCart->totalInCart;
+        //     tempUserCart[i].totalCost += userCart->totalCost;
+        // }
+
+        // fprintf(fpTemp,
+        //     "%s,%s,%d,%d,%d,%d\n",
+        //     tempUserCart[i].cartOwner,
+        //     tempUserCart[i].productName,
+        //     tempUserCart[i].singlePriceProduct,
+        //     // strtok(ctime(&userCart.timeStamp),"\n"),
+        //     tempUserCart[i].totalInCart,
+        //     tempUserCart[i].totalCost,
+        //     tempUserCart[i].timeStamp
+        // );
+
+
+        i++;
+    }
+
+    fclose(fp);
+    // fclose(fpTemp);
+    bool found = false;
+    for (int j = 0; j < i; j++){
+        if(strcmp(tempUserCart[j].cartOwner, userCart->cartOwner) == 0 && strcmp(tempUserCart[j].productName, userCart->productName) == 0){
+            tempUserCart[j].totalInCart += userCart->totalInCart;
+            tempUserCart[j].totalCost += userCart->totalCost;
+            found = true;
+            break;
+        }
+    }
+    
+    if(found){
+        fpTemp = fopen("database/UserCart.csv","w");
+        if(fpTemp == NULL){
             printf("Error Opening UserCart.csv\n");
             return;
         }
 
-        printf("Time in string %s",ctime(&userCart->timeStamp));
-        printf("Time in millisecond %d",userCart->timeStamp);
-        fprintf(fp,
-            "%s,%s,%d,%d,%d,%d\n",
-            userCart->cartOwner,
-            userCart->productName,
-            userCart->singlePriceProduct,
-            // strtok(ctime(&userCart->timeStamp),"\n"),
-            userCart->totalInCart,
-            userCart->totalCost,
-            userCart->timeStamp
-        );
-        
-        if(fwrite != 0){
-            printf("\nSuccessfully saved");
+        for (int j = 0; j < i; j++){
+            fprintf(fpTemp,
+                "%s,%s,%d,%d,%d,%d\n",
+                tempUserCart[j].cartOwner,
+                tempUserCart[j].productName,
+                tempUserCart[j].singlePriceProduct,
+                // strtok(ctime(&userCart.timeStamp),"\n"),
+                tempUserCart[j].totalInCart,
+                tempUserCart[j].totalCost,
+                tempUserCart[j].timeStamp
+            );
         }
-        else{
-            printf("\nError saving");
-        } 
-
-        fclose(fp);
-
+        
+        fclose(fpTemp);
     }
+    else {
+        SaveProductToCart(userCart);
+    }
+   
+    
+
+}
+
+void SaveProductToCart(UserCart *userCart){
+    FILE *fp;
+
+    fp = fopen("database/UserCart.csv","a+");
+
+    if(fp == NULL){
+        printf("Error Opening UserCart.csv\n");
+        return;
+    }
+
+    // printf("Time in string %s",ctime(&userCart->timeStamp));
+    // printf("Time in millisecond %d",userCart->timeStamp);
+    fprintf(fp,
+        "%s,%s,%d,%d,%d,%d\n",
+        userCart->cartOwner,
+        userCart->productName,
+        userCart->singlePriceProduct,
+        // strtok(ctime(&userCart->timeStamp),"\n"),
+        userCart->totalInCart,
+        userCart->totalCost,
+        userCart->timeStamp
+    );
+    
+    if(fwrite != 0){
+        printf("\nSuccessfully saved");
+    }
+    else{
+        printf("\nError saving");
+    } 
+
+    fclose(fp);
+
 }
 
 
@@ -327,7 +489,8 @@ void PrintUserCart(User *currentUser){
     }
 
     fclose(fp);
-    
+    UserSelection(currentUser);
+    return;
 
 }
 
@@ -426,7 +589,7 @@ void PayBill(User *currentUser){
     PrintUserCartSpecific(target, userCart, &itemsCount, &sumPrice);
 
     char choice;
-    printf("Do You Want To Confirmation Of Payment? (y):(n) :\t");
+    printf("Do You Want To Confirmation Of Payment? [y/n] :\t");
 
     fflush(stdin);   
     if(scanf("%c",&choice) != 1) {
@@ -452,8 +615,10 @@ void PayBill(User *currentUser){
         system("clear");
         printf("Please Enter Correct Type \n");
         PayBill(currentUser);
+        return;
     }
-
+    UserSelection(currentUser);
+    return;
 }
 
 
@@ -462,7 +627,7 @@ void SaveUserPos(User *currentUser){
     FILE *fp, *fpTemp, *fpTemp2, *fpTemp3;
     fp = fopen("database/UserCart.csv","r");
     fpTemp = fopen("database/UserPOS.csv","a+");        
-    fpTemp2 = fopen("database/TempUserCart.csv","w");        
+    fpTemp2 = fopen("database/tempUserCart.csv","w");        
     fpTemp3 = fopen("database/TempUserPOS.csv","w");        
     char *sp;
     char line[1000];
@@ -553,7 +718,7 @@ void SaveUserPos(User *currentUser){
     fclose(fpTemp);
     fclose(fpTemp2);
     fclose(fpTemp3);
-    // rename("database/TempUserCart.csv","database/UserCart.csv");
+    // rename("database/tempUserCart.csv","database/UserCart.csv");
 
 }
 
@@ -737,9 +902,9 @@ void SumCutStock(CutStock product[], int size){
         }
     }
 
-    for (int i = 0; i < size; i++){
-        printf("%s %d\n",product[i].productName, product[i].totalToCut);
-    }
+    // for (int i = 0; i < size; i++){
+    //     printf("%s %d\n",product[i].productName, product[i].totalToCut);
+    // }
 
 }
 
@@ -748,43 +913,43 @@ void UpdateUserCart(User *currentUser){
 
     FILE *fp, *fpTemp;
     fp = fopen("database/UserCart.csv","w");
-    fpTemp = fopen("database/TempUserCart.csv","r");
+    fpTemp = fopen("database/tempUserCart.csv","r");
     char line[1000];
     char *sp;
-    UserCart TempUserCart;
+    UserCart tempUserCart;
 
     while (fgets(line, 1000, fpTemp) != NULL){
 
         sp = strtok(line, ",");
-        strcpy(TempUserCart.cartOwner, sp);
+        strcpy(tempUserCart.cartOwner, sp);
 
         sp = strtok(NULL, ",");
-        strcpy(TempUserCart.productName, sp);
+        strcpy(tempUserCart.productName, sp);
 
         sp = strtok(NULL, ",");
-        TempUserCart.singlePriceProduct = atoi(sp);
+        tempUserCart.singlePriceProduct = atoi(sp);
 
         sp = strtok(NULL, ",");
-        TempUserCart.totalInCart = atoi(sp);
+        tempUserCart.totalInCart = atoi(sp);
 
         sp = strtok(NULL, ",");
-        TempUserCart.totalCost = atoi(sp);
+        tempUserCart.totalCost = atoi(sp);
 
         sp = strtok(NULL, ",");
         int tempTime = atoi(sp);
 
 
-        TempUserCart.timeStamp = (time_t) tempTime;
+        tempUserCart.timeStamp = (time_t) tempTime;
         
         fprintf(fp,
             "%s,%s,%d,%d,%d,%d\n",
-            TempUserCart.cartOwner,
-            TempUserCart.productName,
-            TempUserCart.singlePriceProduct,
+            tempUserCart.cartOwner,
+            tempUserCart.productName,
+            tempUserCart.singlePriceProduct,
             // strtok(ctime(&userCart.timeStamp),"\n"),
-            TempUserCart.totalInCart,
-            TempUserCart.totalCost,
-            TempUserCart.timeStamp
+            tempUserCart.totalInCart,
+            tempUserCart.totalCost,
+            tempUserCart.timeStamp
         );
 
     }
@@ -822,7 +987,7 @@ void EditItemInCart(User *currentUser){
     }
 
     fp = fopen("database/UserCart.csv","r");
-    fpTemp = fopen("database/TempUserCart.csv","w");
+    fpTemp = fopen("database/tempUserCart.csv","w");
     char *sp;
     UserCart updateCart;
     int i = 0;
@@ -907,7 +1072,7 @@ void EditItemInCart(User *currentUser){
     if(found == 1){
         
         fp = fopen("database/UserCart.csv", "w");
-        fpTemp = fopen("database/TempUserCart.csv", "r");
+        fpTemp = fopen("database/tempUserCart.csv", "r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
 
@@ -956,11 +1121,17 @@ void EditItemInCart(User *currentUser){
         fclose(fp);
         fclose(fpTemp);
         printf("Successfully saved\n");
+        UserSelection(currentUser);
+        return;
     }
 
     else {
         printf("DATA NOT FOUND\n");
+        
     }
+
+    UserSelection(currentUser);
+    return;
 
 
 }
@@ -988,7 +1159,7 @@ void RemoveItemInCart(User *currentUser){
     }
 
     fp = fopen("database/UserCart.csv","r");
-    fpTemp = fopen("database/TempUserCart.csv","w");
+    fpTemp = fopen("database/tempUserCart.csv","w");
     char *sp;
     char line[1000];
     UserCart tempCart;
@@ -1050,7 +1221,7 @@ void RemoveItemInCart(User *currentUser){
 
     if(found == 1){
         fp = fopen("database/UserCart.csv", "w");
-        fpTemp = fopen("database/TempUserCart.csv", "r");
+        fpTemp = fopen("database/tempUserCart.csv", "r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
             sp = strtok(line, ",");
@@ -1098,13 +1269,14 @@ void RemoveItemInCart(User *currentUser){
         fclose(fp);
         fclose(fpTemp);
         printf("Successfully saved\n");
-
+        UserSelection(currentUser);
+        return;
     }
 
     else {
         printf("DATA NOT FOUND\n");
     }
-
+    UserSelection(currentUser);
     return;
 
 }
