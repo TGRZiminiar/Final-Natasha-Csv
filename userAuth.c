@@ -21,21 +21,25 @@ void Login(int *loginOrNot, User *currentUser){
 
     printf("\n------------- Please Fill UserName And Password ---------------\n\n");
     printf("\tUserName  :\t");
+    fflush(stdin);
     fgets(userName, 50, stdin);
-    userName[strlen(userName)-1] = 0;
+    userName[strlen(userName)-1] = '\0';
 
     printf("\tPassword  :\t");
     fgets(password, 50, stdin);
-    password[strlen(password)-1] = 0;
+    password[strlen(password)-1] = '\0';
 
+    printf("UserName %s\n",userName);
+    printf("Password %s\n",password);
 
     fp = fopen("database/User.csv","r");
     char line[1000];
     char *sp;
 
-    while (fgets(line, 1000, fp) != NULL){
-        sp = strtok(line, ",");
 
+    while (fgets(line, 1000, fp) != NULL){
+
+        sp = strtok(line, ",");
         strcpy(user.userName, sp);
         
         sp = strtok(NULL, ",");

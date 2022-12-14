@@ -979,7 +979,7 @@ void RemoveItemInCart(User *currentUser){
     
     int targetLine;
     fflush(stdin);
-    printf("Enter Number Of Item That You Want To Edit :\t");
+    printf("Enter Number Of Item That You Want To Remove :\t");
 
     if(scanf("%d",&targetLine) != 1) {
         system("clear");

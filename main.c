@@ -33,7 +33,7 @@ int main(void){
     FirstTouch(&loginOrNot, currentUser);
     // printf("LOGIN OR NOT FROM WHILE %d\n",loginOrNot);
     if(loginOrNot == 0){
-      system("cls");
+      // system("cls");
       printf("========= Your UserName Or Password Is Wronge =========\n");
     }
   }

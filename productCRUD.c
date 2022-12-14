@@ -71,7 +71,6 @@ void AddProduct(){
     FILE *fp;
     char temp[50];
 
-    system("cls");
     printf("\n========= Add Product To Store =========\n");
     printf("Enter Product Name:\t");
 
@@ -355,60 +354,192 @@ void EditProductInDB(){
 
 void RemoveProduct(){
 
-    Product product;
+    Product tempProduct;
     FILE *fp, *fpTemp;
 
-    char targetProduct[50];
-    
-    char fileName[FILENAME_SIZE] = "database/Product.csv";
-    char tempFileName[FILENAME_SIZE];
-    char buffer[MAX_LINE];
-    int deleteLine = 0;
+    fp = fopen("database/Product.csv","r");
+    fpTemp = fopen("database/TempProduct.csv","w");
+
+    if(fp == NULL){
+        printf("Error Opening File.\n");
+        return;
+    }
 
     PrintProduct();
-    strcpy(tempFileName, "temp____");
-    strcat(tempFileName, fileName);
+    int targetLine;
+    fflush(stdin);
+    printf("Enter Number Of Item That You Want To Remove :\t");
 
-    printf("Delete Line: ");
-    scanf("%d",&deleteLine);
-
-    if(scanf("%d",&deleteLine) != 1) {
+    if(scanf("%d",&targetLine) != 1) {
         system("clear");
         printf("Please Enter Correct Type\n");
         RemoveProduct();
     }
 
+    char line[1000];
+    char *sp;
+    int i = 1;
+    int found = 0;
 
-    fp = fopen(fileName,"r");
-    fpTemp = fopen(tempFileName,"w");
+    while (fgets(line, 1000, fp) != NULL){
 
-    if(fp == NULL || fpTemp == NULL){
-        printf("FILE FORMAT ERROR\n");
-        return;
-    }
-
-    bool keepReading = true;
-    int currentLine = 1;
-
- 
-    do{
-        
-        fgets(buffer, 1024, fp);
-        if(feof(fp)) keepReading = false;
-        else if(currentLine != deleteLine){
-            fputs(buffer, fpTemp);
+        if(i == targetLine){
+            
         }
-        currentLine++;
 
-    } while (keepReading);
+        else {
+            found = 1;
+
+            sp = strtok(line, ",");
+            strcpy(tempProduct.productName, sp);
+            
+            sp = strtok(NULL, ",");
+            tempProduct.productPrice = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.productQuantity = atoi(sp);
         
+            sp = strtok(NULL, ",");
+            tempProduct.productCost = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.productProfit = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.minimumQuantity = atoi(sp);
+
+            fprintf(fpTemp,
+                "%s,%d,%d,%d,%d,%d\n",
+                tempProduct.productName,
+                tempProduct.productPrice,
+                tempProduct.productQuantity,
+                tempProduct.productCost,
+                tempProduct.productProfit,
+                tempProduct.minimumQuantity
+            );
+            if(fwrite != 0){
+                printf("\nSuccessfully saved");
+            }
+            else{
+                printf("\nError saving");
+            } 
+            
+
+        }
+
+        i++;
+
+    }
+       
     fclose(fp);
     fclose(fpTemp);
-    remove(fileName);
-    rename(tempFileName, fileName);
-    printf("Remove Product Success\n");
+
+    if(found == 1){
+        fp = fopen("database/Product.csv","w");
+        fpTemp = fopen("database/TempProduct.csv","r");
+
+        while (fgets(line, 1000, fpTemp) != NULL){
+           
+            sp = strtok(line, ",");
+            strcpy(tempProduct.productName, sp);
+            
+            sp = strtok(NULL, ",");
+            tempProduct.productPrice = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.productQuantity = atoi(sp);
+        
+            sp = strtok(NULL, ",");
+            tempProduct.productCost = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.productProfit = atoi(sp);
+
+            sp = strtok(NULL, ",");
+            tempProduct.minimumQuantity = atoi(sp);
+
+            fprintf(fp,
+                "%s,%d,%d,%d,%d,%d\n",
+                tempProduct.productName,
+                tempProduct.productPrice,
+                tempProduct.productQuantity,
+                tempProduct.productCost,
+                tempProduct.productProfit,
+                tempProduct.minimumQuantity
+            );
+            if(fwrite != 0){
+                printf("\nSuccessfully saved");
+            }
+            else{
+                printf("\nError saving");
+            } 
+
+        }
+        fclose(fp);
+        fclose(fpTemp);
+    }
+    else {
+        printf("DATA NOT FOUND\n");
+    }
+
     return;
 }
+// void RemoveProduct(){
+
+//     Product product;
+//     FILE *fp, *fpTemp;
+
+//     char targetProduct[50];
+    
+//     char fileName[FILENAME_SIZE] = "database/Product.csv";
+//     char tempFileName[FILENAME_SIZE];
+//     char buffer[MAX_LINE];
+//     int deleteLine = 0;
+
+//     PrintProduct();
+//     strcpy(tempFileName, "temp____");
+//     strcat(tempFileName, fileName);
+
+//     printf("Delete Line: ");
+//     scanf("%d",&deleteLine);
+
+//     if(scanf("%d",&deleteLine) != 1) {
+//         system("clear");
+//         printf("Please Enter Correct Type\n");
+//         RemoveProduct();
+//     }
+
+
+//     fp = fopen(fileName,"r");
+//     fpTemp = fopen(tempFileName,"w");
+
+//     if(fp == NULL || fpTemp == NULL){
+//         printf("FILE FORMAT ERROR\n");
+//         return;
+//     }
+
+//     bool keepReading = true;
+//     int currentLine = 1;
+
+ 
+//     do{
+        
+//         fgets(buffer, 1024, fp);
+//         if(feof(fp)) keepReading = false;
+//         else if(currentLine != deleteLine){
+//             fputs(buffer, fpTemp);
+//         }
+//         currentLine++;
+
+//     } while (keepReading);
+        
+//     fclose(fp);
+//     fclose(fpTemp);
+//     remove(fileName);
+//     rename(tempFileName, fileName);
+//     printf("Remove Product Success\n");
+//     return;
+// }
 
 
 void saveUpdateProduct(char *line, char *sp, int *found, Product tempProduct, FILE *fpTemp, char *targetProduct){

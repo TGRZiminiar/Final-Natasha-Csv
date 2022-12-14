@@ -32,21 +32,20 @@ void PrintUserData(){
     FILE *fp;
     User users[1000];
 
-    if (fp == NULL){
-        printf("Error opening file.\n");
+    fp = fopen("database/User.csv", "r"); 
+    if(fp == NULL){
+        printf("Error Opening File.\n");
         return;
     }
-    fp = fopen("database/User.csv", "r"); 
-   
     char line[1000];
     
     char *sp;
-    int i = 0;
+    int i = 1;
     // TODO: print table header 
     while (fgets(line, 1000, fp) != NULL){
         // printf("\n%s",line);
 
-        printf("----------- Product Key : %d -------------\n\n",i);
+        printf("----------- User Line : %d -------------\n\n",i);
 
         sp = strtok(line, ",");
         strcpy(users[i].userName, sp);
@@ -108,15 +107,15 @@ int NumberOfUser(){
 void EditUser(){
     FILE *fp;
     FILE *fpTemp;
-    
-    if(fp == NULL){
-        printf("Error Opening File.\n");
-        return;
-    }
 
     fp = fopen("database/User.csv","r");
     fpTemp = fopen("database/TempUser.csv","w");
 
+    if(fp == NULL || fpTemp == NULL){
+        printf("Error Opening File.\n");
+        return;
+    }
+    
     User users[1000];
     User updateUser;
     User tempUser;
@@ -135,12 +134,7 @@ void EditUser(){
     char buffer[MAX_LINE];
 
     while (fgets(line, 1000, fp) != NULL){
-        if(feof(fp)) {
-            keepReading = false;
-        }
-        // fgets(buffer, MAX_LINE, fp);
-        sscanf(line, "%s", &updateUser.userName);
-        
+      
         sp = strtok(line, ",");
         strcpy(updateUser.userName, sp);
 
@@ -163,10 +157,11 @@ void EditUser(){
         // printf("Role %s\n",updateUser.role);
         
         if(strcmp(targetUser, updateUser.userName) == 0){
+
             found = 1;
 
             printf("Current value for username is %s; please enter new value:\t", updateUser.userName);
-            // fflush(stdin);
+            fflush(stdin);
             fgets(updateUser.userName, 50, stdin); 
             updateUser.userName[strlen(updateUser.userName)-1] = 0;
             // scanf("%s", &updateUser.userName);
@@ -207,12 +202,6 @@ void EditUser(){
         fpTemp = fopen("database/TempUser.csv","r");
 
         while (fgets(line, 1000, fpTemp) != NULL){
-            if(feof(fp)) {
-                keepReading = false;
-            }
-
-            sscanf(line, "%s", &tempUser.userName);
-
             sp = strtok(line, ",");
             strcpy(tempUser.userName, sp);
 
@@ -251,6 +240,126 @@ void RemoveUser(){
 
     FILE *fp, *fpTemp;
 
+    PrintUserData();
+
+    int targetLine;
+    fflush(stdin);
+    printf("Enter Number Of Item That You Want To Edit :\t");
+
+    if(scanf("%d",&targetLine) != 1) {
+        system("clear");
+        printf("Please Enter Correct Type\n");
+        RemoveUser();
+    }
+
+    fp = fopen("database/User.csv","r");
+    fpTemp = fopen("database/TempUser.csv","w");
+
+    if(fp == NULL || fpTemp == NULL){
+        printf("FILE FORMAT ERROR\n");
+        return;
+    }
+
+    char *sp;
+    char line[1000];
+    User updateUser;
+    User tempUser;
+    
+
+    int i = 1;
+    int found = 0;
+
+    while (fgets(line, 1000, fp) != NULL){
+        
+        if(i == targetLine){
+
+        }
+
+        else {
+            sp = strtok(line, ",");
+            strcpy(tempUser.userName, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.password, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.email, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.phone, sp);
+            
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.role, sp);
+
+            found = 1;
+            fprintf(fpTemp,
+            "%s,%s,%s,%s,%s",
+            tempUser.userName,
+            tempUser.password,
+            tempUser.email,
+            tempUser.phone,
+            tempUser.role
+            );
+        }
+
+        i++;
+
+    }
+
+    fclose(fp);
+    fclose(fpTemp);
+
+
+    if(found == 1){
+        fp = fopen("database/User.csv","w");
+        fpTemp = fopen("database/TempUser.csv","r");
+
+        while (fgets(line, 1000, fpTemp) != NULL){
+           
+            sscanf(line, "%s", &tempUser.userName);
+
+            sp = strtok(line, ",");
+            strcpy(tempUser.userName, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.password, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.email, sp);
+
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.phone, sp);
+            
+            sp = strtok(NULL, ",");
+            strcpy(tempUser.role, sp);
+        
+            fprintf(fp,
+            "%s,%s,%s,%s,%s",
+            tempUser.userName,
+            tempUser.password,
+            tempUser.email,
+            tempUser.phone,
+            tempUser.role
+            );
+        }
+        fclose(fp);
+        fclose(fpTemp);
+    }
+    else {
+        printf("DATA NOT FOUND\n");
+    }
+
+    return;
+
+}   
+
+
+/* 
+
+void RemoveUser(){
+    
+    FILE *fp, *fpTemp;
+
     char fileName[FILENAME_SIZE] = "database/User.csv";
     char tempFileName[FILENAME_SIZE];
     char buffer[MAX_LINE];
@@ -260,6 +369,7 @@ void RemoveUser(){
     strcat(tempFileName, fileName);
 
     printf("Delete Line: ");
+    fflush(stdin);
     scanf("%d",&deleteLine);
 
     fp = fopen(fileName, "r");
@@ -290,3 +400,5 @@ void RemoveUser(){
     return;
 
 }   
+
+ */
