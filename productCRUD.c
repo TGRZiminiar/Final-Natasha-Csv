@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "admin.route.h"
+#include "user.route.h"
 #include <stdbool.h>
 #define FILENAME_SIZE 1024
 #define MAX_LINE 2048
@@ -26,41 +27,54 @@ void PrintProduct(){
     char line[1000];
     char *sp;
 
+    Product warningProduct[50];
+    int counter = 0;
+
     while (fgets(line, 1000, fp) != NULL){
 
         printf("----------- Product Number : %d -------------\n\n",i);
         // printf("\n%s\n",line);
         sp = strtok(line, ",");
         strcpy(product.productName, sp);
-        printf("\tProduct Name                  :\t%s\n", product.productName);
         
         sp = strtok(NULL, ",");
         product.productPrice = atoi(sp);
         // printf("SP => %s\n",sp);
-        printf("\tProduct Price                 :\t%d\n", product.productPrice);
 
         sp = strtok(NULL, ",");
         product.productQuantity = atoi(sp);
-        printf("\tProduct Quantity              :\t%d\n", product.productQuantity);
         
         sp = strtok(NULL, ",");
         product.productCost = atoi(sp);
-        printf("\tProduct Cost              :\t%d\n", product.productCost);
       
         // sp = strtok(NULL, ",");
         // product.productProfit = atoi(sp);
-        printf("\tProduct Profit              :\t%d\n", product.productPrice - product.productCost);
 
         sp = strtok(NULL, ",");
         product.minimumQuantity = atoi(sp);
-        printf("\tProduct minimumQuantity       :\t%d\n", product.minimumQuantity);
 
+        printf("\tProduct Name                  :\t%s\n", product.productName);
+        printf("\tProduct Price                 :\t%d\n", product.productPrice);
+        if(product.productQuantity <= product.minimumQuantity){
+            
+            printf("\tProduct Quantity              :\t\033[0;31m%d\n", product.productQuantity);
+            reset();
+            memcpy(&warningProduct[counter], &product, sizeof(Product));
+            counter++;
+        }
+        else {
+            printf("\tProduct Quantity              :\t%d\n", product.productQuantity);
+        }
+        printf("\tProduct Cost                  :\t%d\n", product.productCost);
+        printf("\tProduct Profit                :\t%d\n", product.productPrice - product.productCost);
+        printf("\tProduct minimumQuantity       :\t%d\n", product.minimumQuantity);
         
         printf("\n\n");
         i++;
     }
 
     fclose(fp);    
+
 }
 
 
@@ -151,6 +165,7 @@ void AddProduct(){
         } 
         fclose(fp);
     }
+    
 }
 
 

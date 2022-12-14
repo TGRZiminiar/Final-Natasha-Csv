@@ -14,20 +14,24 @@ void AdminSelection(User *currentUser){
     int choice;
     // while (choice != 4){
     fflush(stdin);
+    purple();
     printf("\n\nHey Admin! What you want to do here");
-    printf("\n(1) See All Command User");
-    printf("\n(2) See All Command Product");
-    printf("\n(3) Accounting System");
-    printf("\n(4) Point Of Sales");
-    printf("\n(5) Go To User Selection");
-    printf("\n(6) Exist");
+    reset();
+    printf("\n-> (1) See All Command User");
+    printf("\n-> (2) See All Command Product");
+    printf("\n-> (3) Accounting System");
+    printf("\n-> (4) Point Of Sales");
+    printf("\n-> (5) Go To User Selection");
+    printf("\n-> (6) Exist");
     printf("\n\nYour choice\t:\t");
+    yellow();
     if(scanf("%d",&choice) != 1) {
         system("clear");
         printf("Please Enter Correct Type\n");
         AdminSelection(currentUser);
         return;
     }
+    reset();
     // scanf("%d",&choice);
 
     switch (choice){
@@ -85,18 +89,26 @@ void CommandUser(User *currentUser){
     switch (choice){
     case 1:
         printf("Number Of User %d\n",NumberOfUser());
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 2:
         PrintUserData();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 3:
         EditUser();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 4:
         RemoveUser();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 5:
@@ -134,18 +146,26 @@ void CommandProduct(User *currentUser){
     switch (choice){
     case 1:
         PrintProduct();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 2:
         AddProduct();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 3:
         EditProductInDB();
+        AdminSelection(currentUser);
+        return;
         break;
 
     case 4:
         RemoveProduct();
+        AdminSelection(currentUser);
+        return;
         break;
     case 5:
         AdminSelection(currentUser);

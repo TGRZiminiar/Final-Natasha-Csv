@@ -22,7 +22,7 @@ void SelectAccounting(){
     printf("\n(3) Profit Time Range");
     printf("\n(4) Exist");
     printf("\n\nYour choice\t:\t");
-     if(scanf("%d",&choice) != 1) {
+    if(scanf("%d",&choice) != 1) {
         system("clear");
         printf("Please Enter Correct Type\n");
         SelectPointOfSales();
@@ -353,10 +353,11 @@ void ProfitTimeRange(){
 
     // DeleteDuplicate(tempProduct, &size);
 
+    
+
     char target[50];
     char fullTarget[50];
     CalculateMonthAccounting(target, fullTarget);
-
 
     int sumCost = 0;
     int sumProfit = 0;
